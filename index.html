@@ -129,6 +129,60 @@
     .card-note { margin-left: 0; max-width: 100%; text-align: left; }
     .page-header h1 { font-size: 18px; }
   }
+
+  /* ===== フィルターバー ===== */
+  .filter-bar {
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+    padding: 14px 16px; background: white;
+    border-bottom: 1px solid #ddd; position: sticky; top: 44px; z-index: 99;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  }
+  .filter-btn {
+    padding: 6px 18px; border-radius: 20px; border: 2px solid #ccc;
+    background: white; cursor: pointer; font-size: 13px; font-weight: 600;
+    transition: all 0.18s; font-family: inherit;
+  }
+  .filter-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .filter-btn.active { border-color: transparent; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .filter-btn[data-filter="all"].active { background: #334155; border-color: #334155; }
+  .filter-btn[data-filter="変更"].active { background: #d97706; border-color: #d97706; }
+  .filter-btn[data-filter="追加"].active { background: #059669; border-color: #059669; }
+  .filter-btn[data-filter="削除"].active { background: #dc2626; border-color: #dc2626; }
+  .filter-btn[data-filter="番号変更"].active { background: #7c3aed; border-color: #7c3aed; }
+
+  /* ===== 骨子グループ ===== */
+  .koushi-group { margin-bottom: 48px; }
+  .koushi-toggle {
+    display: flex; align-items: center; gap: 12px;
+    background: linear-gradient(135deg, #0f2a4a 0%, #1e3a5f 100%);
+    color: white; padding: 18px 24px; border-radius: 12px;
+    cursor: pointer; user-select: none;
+    border: none; width: 100%; text-align: left;
+    transition: opacity 0.2s; font-family: inherit;
+  }
+  .koushi-toggle:hover { opacity: 0.92; }
+  .koushi-toggle-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0; transition: transform 0.25s;
+  }
+  .koushi-toggle.collapsed .koushi-toggle-icon { transform: rotate(-90deg); }
+  .koushi-toggle-text h3 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .koushi-toggle-text p { font-size: 11px; opacity: 0.75; }
+  .koushi-badge {
+    margin-left: auto; background: rgba(255,255,255,0.15);
+    padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .koushi-body { margin-top: 8px; }
+  .koushi-body.hidden { display: none; }
+
+  /* 非表示カード */
+  .card.filtered-out { display: none; }
+  /* 空になったセクション */
+  .section-all-hidden { display: none; }
+
 </style>
 </head>
 <body>
@@ -150,6 +204,14 @@
   <div class="legend-item"><div class="legend-dot" style="background:#34d399;"></div>追加（R8新設問）</div>
   <div class="legend-item"><div class="legend-dot" style="background:#f87171;"></div>削除（R8で削除）</div>
   <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;"></div>番号変更（R6→R8で問番号変更、内容はほぼ同じ）</div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-filter="all">すべて表示</button>
+  <button class="filter-btn" data-filter="変更" style="border-color:#d97706;color:#d97706;">変更</button>
+  <button class="filter-btn" data-filter="追加" style="border-color:#059669;color:#059669;">追加</button>
+  <button class="filter-btn" data-filter="削除" style="border-color:#dc2626;color:#dc2626;">削除</button>
+  <button class="filter-btn" data-filter="番号変更" style="border-color:#7c3aed;color:#7c3aed;">番号変更</button>
 </div>
 
 <div class="sticky-nav">
@@ -230,6 +292,16 @@
 
 <div class="main-content">
 
+<div class="koushi-group" id="kg1">
+  <button class="koushi-toggle" onclick="">
+    <div class="koushi-toggle-icon">▼</div>
+    <div class="koushi-toggle-text">
+      <h3>①　類似薬効比較方式における算定方法の見直し</h3>
+      <p>骨子 第２・１・（１）①② — 比較薬補正加算控除・革新的新薬の評価方法</p>
+    </div>
+    <span class="koushi-badge">14 セクション</span>
+  </button>
+  <div class="koushi-body">
 <section id="1_薬価">
   <div class="section-header">
     <h2>1.薬価</h2>
@@ -262,7 +334,6 @@
 </div>
   </div>
 </section>
-
 <section id="別の品目">
   <div class="section-header">
     <h2>別の品目</h2>
@@ -294,7 +365,6 @@
 </div>
   </div>
 </section>
-
 <section id="薬価">
   <div class="section-header">
     <h2>薬価</h2>
@@ -328,7 +398,6 @@
 </div>
   </div>
 </section>
-
 <section id="一日薬価_一日通常最大単位数量">
   <div class="section-header">
     <h2>一日薬価・一日通常最大単位数量</h2>
@@ -355,7 +424,6 @@
 </div>
   </div>
 </section>
-
 <section id="9_新薬">
   <div class="section-header">
     <h2>9.新薬</h2>
@@ -447,7 +515,6 @@
 </div>
   </div>
 </section>
-
 <section id="11_汎用新規収載品">
   <div class="section-header">
     <h2>11.汎用新規収載品</h2>
@@ -493,7 +560,6 @@
 </div>
   </div>
 </section>
-
 <section id="13_既収載品">
   <div class="section-header">
     <h2>13.既収載品</h2>
@@ -520,7 +586,6 @@
 </div>
   </div>
 </section>
-
 <section id="14_汎用規格">
   <div class="section-header">
     <h2>14.汎用規格</h2>
@@ -547,7 +612,6 @@
 </div>
   </div>
 </section>
-
 <section id="15_類似薬_16_最類似薬">
   <div class="section-header">
     <h2>15.類似薬・16.最類似薬</h2>
@@ -574,7 +638,6 @@
 </div>
   </div>
 </section>
-
 <section id="16_最類似薬">
   <div class="section-header">
     <h2>16.最類似薬</h2>
@@ -601,7 +664,6 @@
 </div>
   </div>
 </section>
-
 <section id="17_薬理作用類似薬">
   <div class="section-header">
     <h2>17.薬理作用類似薬</h2>
@@ -628,7 +690,6 @@
 </div>
   </div>
 </section>
-
 <section id="19_剤形間比">
   <div class="section-header">
     <h2>19.剤形間比</h2>
@@ -705,7 +766,6 @@
 </div>
   </div>
 </section>
-
 <section id="20_類似薬効比較方式_Ⅰ_">
   <div class="section-header">
     <h2>20.類似薬効比較方式(Ⅰ)</h2>
@@ -914,7 +974,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="21_類似薬効比較方式_Ⅱ_">
   <div class="section-header">
     <h2>21.類似薬効比較方式(Ⅱ)</h2>
@@ -1052,7 +1111,18 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
+  </div>
+</div>
+<div class="koushi-group" id="kg2">
+  <button class="koushi-toggle" onclick="">
+    <div class="koushi-toggle-icon">▼</div>
+    <div class="koushi-toggle-text">
+      <h3>②　原価計算方式の見直し</h3>
+      <p>骨子 第２・１・（１）③④ — 開示度・販売費及び一般管理費</p>
+    </div>
+    <span class="koushi-badge">7 セクション</span>
+  </button>
+  <div class="koushi-body">
 <section id="22_原価計算方式">
   <div class="section-header">
     <h2>22.原価計算方式</h2>
@@ -1267,7 +1337,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="22_原価計算方式_研究開発費_">
   <div class="section-header">
     <h2>22.原価計算方式（研究開発費）</h2>
@@ -1316,7 +1385,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="22_原価計算方式_計上不認費用_">
   <div class="section-header">
     <h2>22.原価計算方式（計上不認費用）</h2>
@@ -1361,7 +1429,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="22_原価計算方式_輸入原価_">
   <div class="section-header">
     <h2>22.原価計算方式（輸入原価）</h2>
@@ -1390,7 +1457,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="22_原価計算方式_バイオ医薬品_">
   <div class="section-header">
     <h2>22.原価計算方式（バイオ医薬品）</h2>
@@ -1419,7 +1485,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="22_原価計算方式_開示度_">
   <div class="section-header">
     <h2>22.原価計算方式（開示度）</h2>
@@ -1458,7 +1523,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="22_原価計算方式_助成金_">
   <div class="section-header">
     <h2>22.原価計算方式（助成金）</h2>
@@ -1487,7 +1551,18 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
+  </div>
+</div>
+<div class="koushi-group" id="kg3">
+  <button class="koushi-toggle" onclick="">
+    <div class="koushi-toggle-icon">▼</div>
+    <div class="koushi-toggle-text">
+      <h3>③　補正加算・外国平均価格調整の見直し</h3>
+      <p>骨子 第２・１・（２） — 市場性加算(Ⅰ)・標準的治療法加算・外国平均価格調整</p>
+    </div>
+    <span class="koushi-badge">12 セクション</span>
+  </button>
+  <div class="koushi-body">
 <section id="23_補正加算">
   <div class="section-header">
     <h2>23.補正加算</h2>
@@ -1553,7 +1628,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="24_画期性加算">
   <div class="section-header">
     <h2>24.画期性加算</h2>
@@ -1665,7 +1739,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="26_有用性加算_Ⅱ_">
   <div class="section-header">
     <h2>26.有用性加算(Ⅱ)</h2>
@@ -1695,7 +1768,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="27_市場性加算_Ⅰ_">
   <div class="section-header">
     <h2>27.市場性加算(Ⅰ)</h2>
@@ -1724,7 +1796,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="28_市場性加算_Ⅱ_">
   <div class="section-header">
     <h2>28.市場性加算(Ⅱ)</h2>
@@ -1816,7 +1887,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="30_小児加算">
   <div class="section-header">
     <h2>30.小児加算</h2>
@@ -1866,7 +1936,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="32_迅速導入加算">
   <div class="section-header">
     <h2>32.迅速導入加算</h2>
@@ -1957,7 +2026,6 @@ B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
 </div>
   </div>
 </section>
-
 <section id="34_外国平均価格調整">
   <div class="section-header">
     <h2>34.外国平均価格調整</h2>
@@ -2075,7 +2143,6 @@ https://www.medicaid.gov/medicaid/prescription-drugs/pharmacy-pricing/index.html
 </div>
   </div>
 </section>
-
 <section id="35_規格間調整">
   <div class="section-header">
     <h2>35.規格間調整</h2>
@@ -2226,7 +2293,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="新薬算定補正加算対象">
   <div class="section-header">
     <h2>新薬算定補正加算対象</h2>
@@ -2257,7 +2323,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="補正加算非対象の場合">
   <div class="section-header">
     <h2>補正加算非対象の場合</h2>
@@ -2283,7 +2348,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="新薬算定最類似薬">
   <div class="section-header">
     <h2>新薬算定最類似薬</h2>
@@ -2310,7 +2374,18 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
+  </div>
+</div>
+<div class="koushi-group" id="kg4">
+  <button class="koushi-toggle" onclick="">
+    <div class="koushi-toggle-icon">▼</div>
+    <div class="koushi-toggle-text">
+      <h3>④　新規後発品・特殊品目の算定</h3>
+      <p>新規後発品・キット製品・配合剤の算定ルール</p>
+    </div>
+    <span class="koushi-badge">3 セクション</span>
+  </button>
+  <div class="koushi-body">
 <section id="新規後発品">
   <div class="section-header">
     <h2>新規後発品</h2>
@@ -2405,7 +2480,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="キット製品特例">
   <div class="section-header">
     <h2>キット製品特例</h2>
@@ -2432,7 +2506,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="類似処方配合剤_新医療用配合剤">
   <div class="section-header">
     <h2>類似処方配合剤・新医療用配合剤</h2>
@@ -2459,7 +2532,18 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
+  </div>
+</div>
+<div class="koushi-group" id="kg5">
+  <button class="koushi-toggle" onclick="">
+    <div class="koushi-toggle-icon">▼</div>
+    <div class="koushi-toggle-text">
+      <h3>⑤　既収載品の市場実勢価格・比較薬の取扱い</h3>
+      <p>骨子 第３章第１節〜第２節 — 市場実勢価格の算定・比較薬の選定</p>
+    </div>
+    <span class="koushi-badge">3 セクション</span>
+  </button>
+  <div class="koushi-body">
 <section id="第1節_市場実勢価格">
   <div class="section-header">
     <h2>第1節 市場実勢価格</h2>
@@ -2486,7 +2570,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第2節_比較薬の取扱い">
   <div class="section-header">
     <h2>第2節 比較薬の取扱い</h2>
@@ -2514,7 +2597,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第2節">
   <div class="section-header">
     <h2>第2節</h2>
@@ -2569,7 +2651,18 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
+  </div>
+</div>
+<div class="koushi-group" id="kg6">
+  <button class="koushi-toggle" onclick="">
+    <div class="koushi-toggle-icon">▼</div>
+    <div class="koushi-toggle-text">
+      <h3>⑥　長期収載品の薬価適正化（G2廃止・G1見直し）</h3>
+      <p>骨子 第２・１・（５） — G2廃止・後発品置換え期間5年・G1の補完的引下げ</p>
+    </div>
+    <span class="koushi-badge">7 セクション</span>
+  </button>
+  <div class="koushi-body">
 <section id="第4節1_後発品収載後5年経過品">
   <div class="section-header">
     <h2>第4節1 後発品収載後5年経過品</h2>
@@ -2596,7 +2689,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第4節1">
   <div class="section-header">
     <h2>第4節1</h2>
@@ -2641,7 +2733,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第4節2_G2品目">
   <div class="section-header">
     <h2>第4節2 G2品目</h2>
@@ -2722,7 +2813,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第4節_前倒しG1">
   <div class="section-header">
     <h2>第4節 前倒しG1</h2>
@@ -2750,7 +2840,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第4節_前倒しG1撤退">
   <div class="section-header">
     <h2>第4節 前倒しG1撤退</h2>
@@ -2782,7 +2871,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第4節">
   <div class="section-header">
     <h2>第4節</h2>
@@ -2828,7 +2916,44 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
+<section id="別表6_補正加算">
+  <div class="section-header">
+    <h2>別表6 補正加算</h2>
+    <div class="section-desc">別表6 補正加算</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問114〜115 → R8 問116〜117</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（114〜115 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（116〜117 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+  </div>
+</div>
+<div class="koushi-group" id="kg7">
+  <button class="koushi-toggle" onclick="">
+    <div class="koushi-toggle-icon">▼</div>
+    <div class="koushi-toggle-text">
+      <h3>⑦　市場拡大再算定の見直し</h3>
+      <p>骨子 第２・１・（４） — 持続可能性特例価格調整・類似品廃止・再算定頻度</p>
+    </div>
+    <span class="koushi-badge">10 セクション</span>
+  </button>
+  <div class="koushi-body">
 <section id="第5節1_市場拡大再算定">
   <div class="section-header">
     <h2>第5節1 市場拡大再算定</h2>
@@ -2885,7 +3010,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第5節1_同一組成既収載品群">
   <div class="section-header">
     <h2>第5節1 同一組成既収載品群</h2>
@@ -2913,7 +3037,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第5節1">
   <div class="section-header">
     <h2>第5節1</h2>
@@ -2980,7 +3103,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第5節1_基準年間販売額">
   <div class="section-header">
     <h2>第5節1 基準年間販売額</h2>
@@ -3008,7 +3130,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第5節1_3_類似品">
   <div class="section-header">
     <h2>第5節1（3）類似品</h2>
@@ -3073,34 +3194,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
-<section id="別表6_補正加算">
-  <div class="section-header">
-    <h2>別表6 補正加算</h2>
-    <div class="section-desc">別表6 補正加算</div>
-  </div>
-  <div class="section-cards">
-<div class="card card-renumbered">
-  <div class="card-header">
-    <span class="tag tag-renumbered">番号変更</span>
-    <span class="card-nums">R6 問114〜115 → R8 問116〜117</span>
-    <span class="card-note">ほぼ同じ</span>
-  </div>
-  <div class="card-body">
-  <div class="col col-r6">
-    <span class="col-label r6-label">R6</span>
-    <div class="qa-text">（114〜115 ※範囲指定のため個別本文は省略）</div>
-  </div>
-  <div class="col col-r8">
-    <span class="col-label r8-label">R8</span>
-    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
-    <div class="qa-text">（116〜117 ※範囲指定のため個別本文は省略）</div>
-  </div>
-  </div>
-</div>
-  </div>
-</section>
-
 <section id="第5節2_効能変化再算定">
   <div class="section-header">
     <h2>第5節2 効能変化再算定</h2>
@@ -3128,7 +3221,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第5節2">
   <div class="section-header">
     <h2>第5節2</h2>
@@ -3174,7 +3266,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第5節3_用法用量変化再算定">
   <div class="section-header">
     <h2>第5節3 用法用量変化再算定</h2>
@@ -3218,7 +3309,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第5節4_薬価改定の際以外の再算定">
   <div class="section-header">
     <h2>第5節4 薬価改定の際以外の再算定</h2>
@@ -3245,7 +3335,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第5節4">
   <div class="section-header">
     <h2>第5節4</h2>
@@ -3311,7 +3400,18 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
+  </div>
+</div>
+<div class="koushi-group" id="kg8">
+  <button class="koushi-toggle" onclick="">
+    <div class="koushi-toggle-icon">▼</div>
+    <div class="koushi-toggle-text">
+      <h3>⑧　後発品の安定供給・価格帯・基礎的医薬品等</h3>
+      <p>骨子 第２・２ / 第３ — 価格帯集約・不採算品再算定・費用対効果・外国平均価格調整</p>
+    </div>
+    <span class="koushi-badge">14 セクション</span>
+  </button>
+  <div class="koushi-body">
 <section id="第6節_再生医療等製品">
   <div class="section-header">
     <h2>第6節 再生医療等製品</h2>
@@ -3338,7 +3438,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第6節">
   <div class="section-header">
     <h2>第6節</h2>
@@ -3371,7 +3470,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第7節_後発品価格帯">
   <div class="section-header">
     <h2>第7節 後発品価格帯</h2>
@@ -3400,7 +3498,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第7節">
   <div class="section-header">
     <h2>第7節</h2>
@@ -3454,7 +3551,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第8節1_基礎的医薬品">
   <div class="section-header">
     <h2>第8節1 基礎的医薬品</h2>
@@ -3486,7 +3582,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第8節2_不採算品再算定">
   <div class="section-header">
     <h2>第8節2 不採算品再算定</h2>
@@ -3533,7 +3628,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="節名称">
   <div class="section-header">
     <h2>節名称</h2>
@@ -3559,7 +3653,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第9節">
   <div class="section-header">
     <h2>第9節</h2>
@@ -3782,7 +3875,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第10節">
   <div class="section-header">
     <h2>第10節</h2>
@@ -3830,7 +3922,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第10節_希少疾病">
   <div class="section-header">
     <h2>第10節 希少疾病</h2>
@@ -3866,7 +3957,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第10節_小児">
   <div class="section-header">
     <h2>第10節 小児</h2>
@@ -3900,7 +3990,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第10節_臨床的有用性">
   <div class="section-header">
     <h2>第10節 臨床的有用性</h2>
@@ -3951,7 +4040,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="第11節_外国平均価格調整">
   <div class="section-header">
     <h2>第11節 外国平均価格調整</h2>
@@ -3991,7 +4079,6 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
-
 <section id="その他">
   <div class="section-header">
     <h2>その他</h2>
@@ -4078,6 +4165,10 @@ B10（社内1位）<br>
 </div>
   </div>
 </section>
+  </div>
+</div>
+
+</div>
 
 <div class="source-note">
   R8出典：令和8年度 薬価算定の基準 _修正済.docx（令和8年3月26日）<br>
@@ -4085,6 +4176,73 @@ B10（社内1位）<br>
   変更一覧：comparison_r6_r8.csv より生成（全150件）
 </div>
 </div>
+
+
+<script>
+(function() {
+  // ── フィルター ──
+  var currentFilter = 'all';
+
+  document.getElementById('filterBar').addEventListener('click', function(e) {
+    var btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    currentFilter = btn.dataset.filter;
+
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    applyFilter();
+  });
+
+  function applyFilter() {
+    document.querySelectorAll('.card').forEach(function(card) {
+      if (currentFilter === 'all') {
+        card.classList.remove('filtered-out');
+      } else {
+        var tag = card.querySelector('.tag');
+        var tagText = tag ? tag.textContent.trim() : '';
+        if (tagText === currentFilter) {
+          card.classList.remove('filtered-out');
+        } else {
+          card.classList.add('filtered-out');
+        }
+      }
+    });
+
+    // セクションが全カード非表示になったら section ごと隠す
+    document.querySelectorAll('section').forEach(function(sec) {
+      var cards = sec.querySelectorAll('.card');
+      var allHidden = Array.from(cards).every(function(c) { return c.classList.contains('filtered-out'); });
+      sec.classList.toggle('section-all-hidden', cards.length > 0 && allHidden);
+    });
+
+    // 骨子グループが全section非表示になったら body も隠す
+    document.querySelectorAll('.koushi-group').forEach(function(g) {
+      var secs = g.querySelectorAll('section');
+      var allHidden = secs.length > 0 && Array.from(secs).every(function(s) { return s.classList.contains('section-all-hidden'); });
+      var body = g.querySelector('.koushi-body');
+      if (body && !body.classList.contains('hidden')) {
+        // グループ自体は開閉状態を維持しつつ、バッジ更新
+      }
+      var badge = g.querySelector('.koushi-badge');
+      if (badge) {
+        var visible = Array.from(secs).filter(function(s) { return !s.classList.contains('section-all-hidden'); }).length;
+        badge.textContent = visible + ' セクション';
+      }
+    });
+  }
+
+  // ── 骨子トグル ──
+  document.querySelectorAll('.koushi-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var body = btn.closest('.koushi-group').querySelector('.koushi-body');
+      var isCollapsed = body.classList.contains('hidden');
+      body.classList.toggle('hidden', !isCollapsed);
+      btn.classList.toggle('collapsed', !isCollapsed);
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
