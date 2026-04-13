@@ -242,6 +242,90 @@
   /* 空になったセクション */
   .section-all-hidden { display: none; }
 
+  /* ===== 全問タブ: R8のみ表示 ===== */
+  .main-content.view-all .col-r6 { display: none; }
+  .main-content.view-all .card-body { grid-template-columns: 1fr; }
+  .main-content.view-all .r8-label { display: none; }
+  .main-content.view-all .col-r8 { border-right: none; }
+
+  /* ===== サイドバーレイアウト ===== */
+  .layout-wrapper { display: flex; align-items: flex-start; }
+  .sidebar {
+    width: 260px; flex-shrink: 0; position: sticky; top: 0;
+    height: 100vh; overflow-y: auto; background: #fff;
+    border-right: 1px solid #dce3ed; padding: 0 0 24px;
+    scrollbar-width: thin; scrollbar-color: #c8dcea transparent; z-index: 50;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: #c8dcea; border-radius: 2px; }
+  .sidebar-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 14px 10px; border-bottom: 1px solid #dce3ed; margin-bottom: 4px;
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563a8 100%); color: white;
+  }
+  .sidebar-header-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; }
+  .sidebar-close-btn {
+    display: none; background: rgba(255,255,255,0.15); border: none;
+    font-size: 15px; color: white; cursor: pointer; padding: 2px 7px; border-radius: 4px;
+  }
+  .sidebar-close-btn:hover { background: rgba(255,255,255,0.3); }
+  .sidebar-group { margin: 1px 6px; }
+  .sidebar-group-btn {
+    display: flex; align-items: flex-start; gap: 7px;
+    padding: 7px 10px; background: none; border: none; width: 100%;
+    text-align: left; font-family: inherit; font-size: 11.5px; font-weight: 700;
+    color: #1e3a5f; cursor: pointer; transition: background 0.15s; border-radius: 5px;
+  }
+  .sidebar-group-btn:hover { background: #eef4f9; }
+  .sg-num {
+    flex-shrink: 0; width: 17px; height: 17px; border-radius: 50%;
+    background: #1e3a5f; color: white; font-size: 9px;
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .sg-label { flex: 1; min-width: 0; line-height: 1.4; }
+  .sg-icon { flex-shrink: 0; font-size: 9px; color: #9ca3af; transition: transform 0.2s; margin-top: 3px; }
+  .sidebar-group-btn.collapsed .sg-icon { transform: rotate(-90deg); }
+  .sidebar-links { list-style: none; }
+  .sidebar-links.hidden { display: none; }
+  .sidebar-link {
+    display: block; padding: 4px 12px 4px 34px; font-size: 11.5px; color: #374151;
+    text-decoration: none; transition: background 0.12s, color 0.12s;
+    border-left: 3px solid transparent; border-radius: 0 4px 4px 0; line-height: 1.4;
+    margin-right: 4px;
+  }
+  .sidebar-link:hover { background: #eef4f9; color: #1e3a5f; }
+  .sidebar-link.active { background: #dceef8; color: #1e3a5f; border-left-color: #2563a8; font-weight: 600; }
+
+  /* サイドバーオーバーレイ */
+  .sidebar-overlay {
+    display: none; position: fixed; inset: 0; z-index: 240; background: rgba(0,0,0,0.45);
+  }
+  .sidebar-overlay.open { display: block; }
+
+  /* ハンバーガーボタン（モバイルのみ） */
+  .hamburger-btn {
+    display: none; position: fixed; bottom: 20px; right: 16px; z-index: 300;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563a8 100%);
+    color: white; border: none; cursor: pointer; font-size: 22px;
+    box-shadow: 0 4px 14px rgba(30,58,95,0.4); align-items: center; justify-content: center;
+  }
+  .layout-wrapper .main-content { flex: 1; min-width: 0; max-width: none; margin: 0; }
+
+  @media (min-width: 901px) { .sticky-nav { display: none; } }
+
+  @media (max-width: 900px) {
+    .layout-wrapper { display: block; }
+    .sidebar {
+      position: fixed; left: -300px; top: 0; bottom: 0;
+      width: 280px; height: 100vh; z-index: 250;
+      transition: left 0.3s ease; box-shadow: none;
+    }
+    .sidebar.open { left: 0; box-shadow: 4px 0 24px rgba(0,0,0,0.2); }
+    .hamburger-btn { display: flex; }
+    .sidebar-close-btn { display: block; }
+  }
+
 </style>
 </head>
 <body>
@@ -356,11 +440,23 @@
   </div>
 </div>
 
+<div id="sidebarOverlay" class="sidebar-overlay"></div>
+<button id="hamburgerBtn" class="hamburger-btn" aria-label="目次を開く">☰</button>
+
+<div class="layout-wrapper">
+
+<nav id="sidebar" class="sidebar" aria-label="目次">
+  <div class="sidebar-header">
+    <span class="sidebar-header-title">目次</span>
+    <button id="sidebarCloseBtn" class="sidebar-close-btn" aria-label="閉じる">✕</button>
+  </div>
+</nav>
+
 <div class="main-content" id="mainContent">
 
 <div class="all-qa-header">
   <h2>『薬価算定の基準』Q&amp;A</h2>
-  <p>令和6年度・令和8年度 全問一覧　― 変更 / 追加 / 削除 / 番号変更をフィルターで絞り込めます</p>
+  <p>令和8年度 全問一覧　― 変更 / 追加 / 削除 / 番号変更をフィルターで絞り込めます</p>
 </div>
 
 <div class="koushi-group" id="kg1">
@@ -4241,6 +4337,8 @@ B10（社内1位）<br>
 
 </div>
 
+</div><!-- /layout-wrapper -->
+
 <div class="source-note">
   R8出典：令和8年度 薬価算定の基準 _修正済.docx（令和8年3月26日）<br>
   R6出典：薬価算定の基準 Q&amp;A（令和6年3月29日）<br>
@@ -4371,6 +4469,86 @@ B10（社内1位）<br>
       applyFilter(); // 骨子グループの空判定を再計算
     }
   });
+})();
+
+// ── サイドバー ──
+(function() {
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('sidebarOverlay');
+  var hamburgerBtn = document.getElementById('hamburgerBtn');
+  var closeBtn = document.getElementById('sidebarCloseBtn');
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    overlay.classList.add('open');
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+  }
+
+  if (hamburgerBtn) hamburgerBtn.addEventListener('click', openSidebar);
+  if (overlay) overlay.addEventListener('click', closeSidebar);
+  if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+
+  // ナビゲーション生成
+  var groups = document.querySelectorAll('.koushi-group');
+  groups.forEach(function(g, idx) {
+    var h3 = g.querySelector('.koushi-toggle-text h3');
+    var title = h3 ? h3.textContent.trim() : ('論点' + (idx + 1));
+
+    var groupDiv = document.createElement('div');
+    groupDiv.className = 'sidebar-group';
+
+    var btn = document.createElement('button');
+    btn.className = 'sidebar-group-btn';
+    btn.innerHTML =
+      '<span class="sg-num">' + (idx + 1) + '</span>' +
+      '<span class="sg-label">' + title + '</span>' +
+      '<span class="sg-icon">▼</span>';
+
+    var list = document.createElement('ul');
+    list.className = 'sidebar-links';
+
+    var sections = g.querySelectorAll('section[id]');
+    sections.forEach(function(sec) {
+      var h2 = sec.querySelector('.section-header h2');
+      var label = h2 ? h2.textContent.trim() : sec.id.replace(/_/g, ' ');
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + sec.id;
+      a.textContent = label;
+      a.className = 'sidebar-link';
+      a.addEventListener('click', function() {
+        if (window.innerWidth <= 900) closeSidebar();
+      });
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    btn.addEventListener('click', function() {
+      var hidden = list.classList.toggle('hidden');
+      btn.classList.toggle('collapsed', hidden);
+    });
+
+    groupDiv.appendChild(btn);
+    groupDiv.appendChild(list);
+    sidebar.appendChild(groupDiv);
+  });
+
+  // IntersectionObserver でアクティブリンク更新
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          sidebar.querySelectorAll('.sidebar-link').forEach(function(a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+    document.querySelectorAll('section[id]').forEach(function(s) { obs.observe(s); });
+  }
 })();
 </script>
 
