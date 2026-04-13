@@ -139,6 +139,35 @@
     .page-header h1 { font-size: 18px; }
   }
 
+  /* ===== タブバー ===== */
+  .tab-bar {
+    display: flex; background: #1e3a5f; border-bottom: 3px solid #2563a8;
+  }
+  .tab-btn {
+    flex: 1; padding: 14px 20px; border: none; background: transparent;
+    color: #aac4e8; font-size: 14px; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: background 0.2s, color 0.2s;
+    border-bottom: 3px solid transparent; margin-bottom: -3px;
+    letter-spacing: 0.02em;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,0.07); color: white; }
+  .tab-btn.active { color: white; border-bottom-color: #60a5fa; background: rgba(255,255,255,0.08); }
+
+  /* ===== 全問表示モード ===== */
+  .main-content.view-all .koushi-toggle { display: none; }
+  .main-content.view-all .koushi-body  { display: block !important; }
+  .main-content.view-all .koushi-group { margin-bottom: 0; }
+  .main-content.view-all section       { margin-bottom: 20px; }
+  .all-qa-header {
+    display: none;
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563a8 100%);
+    color: white; padding: 20px 24px; margin-bottom: 24px;
+    border-radius: 10px;
+  }
+  .all-qa-header h2 { font-size: 20px; font-weight: 700; }
+  .all-qa-header p  { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+  .main-content.view-all .all-qa-header { display: block; }
+
   /* ===== フィルターバー ===== */
   .filter-bar {
     display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
@@ -217,6 +246,11 @@
   <div class="legend-item"><div class="legend-dot" style="background:#34d399;"></div>追加（R8新設問）</div>
   <div class="legend-item"><div class="legend-dot" style="background:#f87171;"></div>削除（R8で削除）</div>
   <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;"></div>番号変更（R6→R8で問番号変更、内容はほぼ同じ）</div>
+</div>
+
+<div class="tab-bar" id="tabBar">
+  <button class="tab-btn active" data-tab="koushi">骨子論点別 Q&amp;A</button>
+  <button class="tab-btn" data-tab="all">『薬価算定の基準』Q&amp;A（全問）</button>
 </div>
 
 <div class="filter-bar" id="filterBar">
@@ -303,7 +337,12 @@
   </div>
 </div>
 
-<div class="main-content">
+<div class="main-content" id="mainContent">
+
+<div class="all-qa-header">
+  <h2>『薬価算定の基準』Q&amp;A</h2>
+  <p>令和6年度・令和8年度 全問一覧　― 変更 / 追加 / 削除 / 番号変更をフィルターで絞り込めます</p>
+</div>
 
 <div class="koushi-group" id="kg1">
   <button class="koushi-toggle" onclick="">
@@ -4282,6 +4321,26 @@ B10（社内1位）<br>
       body.classList.toggle('hidden', closing);
       btn.classList.toggle('collapsed', closing);
     });
+  });
+
+  // ── タブ切り替え ──
+  var mainContent = document.getElementById('mainContent');
+  var stickyNav   = document.querySelector('.sticky-nav');
+
+  document.getElementById('tabBar').addEventListener('click', function(e) {
+    var btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    if (btn.dataset.tab === 'all') {
+      mainContent.classList.add('view-all');
+      if (stickyNav) stickyNav.style.display = 'none';
+    } else {
+      mainContent.classList.remove('view-all');
+      if (stickyNav) stickyNav.style.display = '';
+      applyFilter(); // 骨子グループの空判定を再計算
+    }
   });
 })();
 </script>
