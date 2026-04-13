@@ -82,11 +82,11 @@
   .card-renumbered { background: #faf8ff; }
 
   .card-header {
-    padding: 10px 16px; background: #fafbfd; border-bottom: 1px solid #eef0f5;
+    padding: 10px 16px; background: #1e3a5f; border-bottom: 2px solid #2563a8;
     display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap;
   }
-  .card-nums { font-size: 14px; font-weight: 700; color: #333; flex-shrink: 0; }
-  .card-note { font-size: 12px; color: #666; margin-left: auto; font-style: italic; max-width: 50%; text-align: right; }
+  .card-nums { font-size: 14px; font-weight: 700; color: #cde0f5; flex-shrink: 0; }
+  .card-note { font-size: 12px; color: rgba(180,210,255,0.8); margin-left: auto; font-style: italic; max-width: 50%; text-align: right; }
 
   .tag {
     display: inline-block; padding: 3px 10px; border-radius: 12px;
@@ -112,7 +112,7 @@
   .r8-label { background: var(--r8-label-bg); }
 
   .qa-text {
-    font-size: 12.5px; line-height: 1.75; color: #2a2a3e;
+    font-size: 14px; line-height: 1.8; color: #1a2030;
     word-break: break-all;
   }
 
@@ -4511,10 +4511,24 @@ B10（社内1位）<br>
     sections.forEach(function(sec) {
       var h2 = sec.querySelector('.section-header h2');
       var label = h2 ? h2.textContent.trim() : sec.id.replace(/_/g, ' ');
+
+      // 問番号の範囲を取得（例: 問1〜問3）
+      var nums = [];
+      sec.querySelectorAll('.card-nums').forEach(function(el) {
+        var ms = el.textContent.match(/問(\d+)/g);
+        if (ms) ms.forEach(function(m) { nums.push(parseInt(m.slice(1))); });
+      });
+      var rangeText = '';
+      if (nums.length > 0) {
+        var mn = Math.min.apply(null, nums), mx = Math.max.apply(null, nums);
+        rangeText = mn === mx ? '（問' + mn + '）' : '（問' + mn + '〜' + mx + '）';
+      }
+
       var a = document.createElement('a');
       a.href = '#' + sec.id;
-      a.textContent = label;
       a.className = 'sidebar-link';
+      a.innerHTML = label +
+        (rangeText ? '<span style="font-size:10px;color:#6b7280;margin-left:4px;font-weight:400;">' + rangeText + '</span>' : '');
       a.addEventListener('click', function() {
         if (window.innerWidth <= 900) closeSidebar();
       });
