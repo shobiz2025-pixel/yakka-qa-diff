@@ -56,7 +56,16 @@
     padding: 16px 24px; border-radius: 10px 10px 0 0;
     border-bottom: 3px solid #2563a8;
   }
-  .section-header h2 { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+  .section-header h2 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+  .section-type-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .section-type-badge {
+    font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 10px;
+    letter-spacing: 0.04em;
+  }
+  .stb-変更  { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+  .stb-追加  { background: #d1fae5; color: #065f46; border: 1px solid #34d399; }
+  .stb-削除  { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+  .stb-番号変更 { background: #ede9fe; color: #4c1d95; border: 1px solid #a78bfa; }
   .section-desc { font-size: 12px; opacity: 0.8; }
 
   .section-cards {
@@ -158,9 +167,13 @@
     color: white; padding: 18px 24px; border-radius: 12px;
     cursor: pointer; user-select: none;
     border: none; width: 100%; text-align: left;
-    transition: opacity 0.2s; font-family: inherit;
+    transition: background 0.25s, opacity 0.2s; font-family: inherit;
   }
   .koushi-toggle:hover { opacity: 0.92; }
+  .koushi-toggle.empty {
+    background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+    opacity: 0.55; cursor: default;
+  }
   .koushi-toggle-icon {
     width: 28px; height: 28px; border-radius: 50%;
     background: rgba(255,255,255,0.15);
@@ -4180,6 +4193,36 @@ B10（社内1位）<br>
 
 <script>
 (function() {
+  // ── 起動時: セクションヘッダーに変更種別バッジを追加 ──
+  document.querySelectorAll('section').forEach(function(sec) {
+    var counts = {};
+    sec.querySelectorAll('.tag').forEach(function(tag) {
+      var t = tag.textContent.trim();
+      counts[t] = (counts[t] || 0) + 1;
+    });
+    var order = ['変更','追加','削除','番号変更'];
+    var badges = order.filter(function(t) { return counts[t]; }).map(function(t) {
+      return '<span class="section-type-badge stb-' + t + '">' + t + ' ' + counts[t] + '件</span>';
+    }).join('');
+    if (badges) {
+      var header = sec.querySelector('.section-header');
+      if (header) {
+        var div = document.createElement('div');
+        div.className = 'section-type-badges';
+        div.innerHTML = badges;
+        header.appendChild(div);
+      }
+    }
+  });
+
+  // ── 起動時: 骨子グループを全て閉じる ──
+  document.querySelectorAll('.koushi-group').forEach(function(g) {
+    var body = g.querySelector('.koushi-body');
+    var btn  = g.querySelector('.koushi-toggle');
+    if (body) body.classList.add('hidden');
+    if (btn)  btn.classList.add('collapsed');
+  });
+
   // ── フィルター ──
   var currentFilter = 'all';
 
@@ -4187,58 +4230,57 @@ B10（社内1位）<br>
     var btn = e.target.closest('.filter-btn');
     if (!btn) return;
     currentFilter = btn.dataset.filter;
-
     document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
-
     applyFilter();
   });
 
   function applyFilter() {
+    // カード表示制御
     document.querySelectorAll('.card').forEach(function(card) {
       if (currentFilter === 'all') {
         card.classList.remove('filtered-out');
       } else {
         var tag = card.querySelector('.tag');
-        var tagText = tag ? tag.textContent.trim() : '';
-        if (tagText === currentFilter) {
-          card.classList.remove('filtered-out');
-        } else {
-          card.classList.add('filtered-out');
-        }
+        var match = tag && tag.textContent.trim() === currentFilter;
+        card.classList.toggle('filtered-out', !match);
       }
     });
 
-    // セクションが全カード非表示になったら section ごと隠す
+    // セクション: 全カード非表示なら隠す
     document.querySelectorAll('section').forEach(function(sec) {
       var cards = sec.querySelectorAll('.card');
-      var allHidden = Array.from(cards).every(function(c) { return c.classList.contains('filtered-out'); });
-      sec.classList.toggle('section-all-hidden', cards.length > 0 && allHidden);
+      var allHidden = cards.length > 0 && Array.from(cards).every(function(c) {
+        return c.classList.contains('filtered-out');
+      });
+      sec.classList.toggle('section-all-hidden', allHidden);
     });
 
-    // 骨子グループが全section非表示になったら body も隠す
+    // 骨子グループ: 表示セクション数を更新 & 0件なら灰色
     document.querySelectorAll('.koushi-group').forEach(function(g) {
       var secs = g.querySelectorAll('section');
-      var allHidden = secs.length > 0 && Array.from(secs).every(function(s) { return s.classList.contains('section-all-hidden'); });
-      var body = g.querySelector('.koushi-body');
-      if (body && !body.classList.contains('hidden')) {
-        // グループ自体は開閉状態を維持しつつ、バッジ更新
-      }
-      var badge = g.querySelector('.koushi-badge');
-      if (badge) {
-        var visible = Array.from(secs).filter(function(s) { return !s.classList.contains('section-all-hidden'); }).length;
-        badge.textContent = visible + ' セクション';
-      }
+      var visibleCount = Array.from(secs).filter(function(s) {
+        return !s.classList.contains('section-all-hidden');
+      }).length;
+
+      var toggle = g.querySelector('.koushi-toggle');
+      var badge  = g.querySelector('.koushi-badge');
+
+      var isEmpty = secs.length > 0 && visibleCount === 0;
+      toggle.classList.toggle('empty', isEmpty);
+
+      if (badge) badge.textContent = visibleCount + ' セクション';
     });
   }
 
   // ── 骨子トグル ──
   document.querySelectorAll('.koushi-toggle').forEach(function(btn) {
     btn.addEventListener('click', function() {
+      if (btn.classList.contains('empty')) return; // 0件は開かない
       var body = btn.closest('.koushi-group').querySelector('.koushi-body');
-      var isCollapsed = body.classList.contains('hidden');
-      body.classList.toggle('hidden', !isCollapsed);
-      btn.classList.toggle('collapsed', !isCollapsed);
+      var closing = !body.classList.contains('hidden');
+      body.classList.toggle('hidden', closing);
+      btn.classList.toggle('collapsed', closing);
     });
   });
 })();
