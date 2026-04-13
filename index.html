@@ -1,0 +1,4090 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>令和６年度・令和８年度 薬価算定Q&amp;A 比較表（骨子論点別）</title>
+<style>
+  :root {
+    --r6-bg: #f4f6f9;
+    --r6-border: #b0b8c8;
+    --r6-label-bg: #6b7c9a;
+    --r8-bg: #eef4fb;
+    --r8-border: #7baedd;
+    --r8-label-bg: #2563a8;
+    --section-bg: #1e3a5f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Sans', 'Meiryo', 'Yu Gothic', sans-serif; font-size: 14px; background: #f0f2f5; color: #1a1a2e; line-height: 1.7; }
+
+  .page-header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563a8 100%);
+    color: white; padding: 32px 24px; text-align: center;
+  }
+  .page-header h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.03em; }
+  .page-header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .page-header .stats { margin-top: 16px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  .stat-badge { background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+  .legend {
+    display: flex; gap: 16px; justify-content: center; padding: 14px 16px;
+    background: white; border-bottom: 1px solid #ddd; flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; }
+  .legend-dot {
+    width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: #1e3a5f; border-bottom: 3px solid #2563a8;
+    overflow-x: auto;
+  }
+  .nav-inner { display: flex; align-items: center; gap: 4px; padding: 8px 16px; min-width: max-content; }
+  .nav-title { color: #aac4e8; font-size: 11px; font-weight: 700; margin-right: 8px; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.1em; }
+  .sticky-nav a {
+    color: #cde0f5; text-decoration: none; font-size: 11px; padding: 5px 9px;
+    border-radius: 4px; white-space: nowrap; transition: background 0.2s;
+  }
+  .sticky-nav a:hover { background: #2563a8; color: white; }
+
+  .main-content { max-width: 1500px; margin: 0 auto; padding: 24px 16px; }
+
+  section { margin-bottom: 40px; }
+  .section-header {
+    background: var(--section-bg); color: white;
+    padding: 16px 24px; border-radius: 10px 10px 0 0;
+    border-bottom: 3px solid #2563a8;
+  }
+  .section-header h2 { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+  .section-desc { font-size: 12px; opacity: 0.8; }
+
+  .section-cards {
+    background: white; border: 1px solid #dce3ed; border-top: none;
+    border-radius: 0 0 10px 10px; overflow: hidden;
+  }
+
+  .card { border-top: 1px solid #eef0f5; }
+  .section-cards .card:first-child { border-top: none; }
+
+  .card-changed { background: #fffef8; }
+  .card-added { background: #f8fff8; }
+  .card-deleted { background: #fff8f8; }
+  .card-renumbered { background: #faf8ff; }
+
+  .card-header {
+    padding: 10px 16px; background: #fafbfd; border-bottom: 1px solid #eef0f5;
+    display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap;
+  }
+  .card-nums { font-size: 14px; font-weight: 700; color: #333; flex-shrink: 0; }
+  .card-note { font-size: 12px; color: #666; margin-left: auto; font-style: italic; max-width: 50%; text-align: right; }
+
+  .tag {
+    display: inline-block; padding: 3px 10px; border-radius: 12px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.05em; flex-shrink: 0;
+  }
+  .tag-changed { background: #fff3cd; color: #856404; border: 1px solid #ffc107; }
+  .tag-added { background: #d1fae5; color: #065f46; border: 1px solid #34d399; }
+  .tag-deleted { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+  .tag-renumbered { background: #e9d5ff; color: #4c1d95; border: 1px solid #a78bfa; }
+
+  .card-body { display: grid; grid-template-columns: 1fr 1fr; }
+
+  .col { padding: 14px 16px; }
+  .col-r6 { background: var(--r6-bg); border-right: 2px solid var(--r6-border); }
+  .col-r8 { background: var(--r8-bg); }
+
+  .col-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+    padding: 3px 9px; border-radius: 4px; display: inline-block;
+    margin-bottom: 8px; color: white;
+  }
+  .r6-label { background: var(--r6-label-bg); }
+  .r8-label { background: var(--r8-label-bg); }
+
+  .qa-text {
+    font-size: 12.5px; line-height: 1.75; color: #2a2a3e;
+    word-break: break-all;
+  }
+
+  .not-in-era {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 60px; color: #999; font-size: 13px; font-style: italic;
+  }
+
+  .renumber-note {
+    font-size: 11px; color: #6d28d9; background: #f5f3ff;
+    padding: 4px 10px; border-radius: 4px; margin-bottom: 8px;
+    border-left: 3px solid #a78bfa;
+  }
+
+  .source-note {
+    text-align: center; color: #888; font-size: 12px;
+    padding: 32px 16px; border-top: 1px solid #ddd; margin-top: 40px;
+  }
+
+  @media (max-width: 768px) {
+    .card-body { grid-template-columns: 1fr; }
+    .col-r6 { border-right: none; border-bottom: 2px solid var(--r6-border); }
+    .card-note { margin-left: 0; max-width: 100%; text-align: left; }
+    .page-header h1 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>令和６年度・令和８年度 薬価算定Q&amp;A 比較表（骨子論点別）</h1>
+  <p>R8出典：令和8年度 薬価算定の基準 _修正済.docx（令和8年3月26日）　R6出典：薬価算定の基準Q&amp;A（令和6年3月29日）</p>
+  <div class="stats">
+    <span class="stat-badge">全150件</span>
+    <span class="stat-badge" style="background:rgba(255,193,7,0.3)">変更 44件</span>
+    <span class="stat-badge" style="background:rgba(52,211,153,0.3)">追加 14件</span>
+    <span class="stat-badge" style="background:rgba(248,113,113,0.3)">削除 18件</span>
+    <span class="stat-badge" style="background:rgba(167,139,250,0.3)">番号変更 74件</span>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#ffc107;"></div>変更（内容変更）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#34d399;"></div>追加（R8新設問）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f87171;"></div>削除（R8で削除）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;"></div>番号変更（R6→R8で問番号変更、内容はほぼ同じ）</div>
+</div>
+
+<div class="sticky-nav">
+  <div class="nav-inner">
+    <span class="nav-title">セクション</span>
+    <a href="#1_薬価">1.薬価</a>
+    <a href="#別の品目">別の品目</a>
+    <a href="#薬価">薬価</a>
+    <a href="#一日薬価_一日通常最大単位数量">一日薬価・一日通常最大単位数量</a>
+    <a href="#9_新薬">9.新薬</a>
+    <a href="#11_汎用新規収載品">11.汎用新規収載品</a>
+    <a href="#13_既収載品">13.既収載品</a>
+    <a href="#14_汎用規格">14.汎用規格</a>
+    <a href="#15_類似薬_16_最類似薬">15.類似薬・16.最類似薬</a>
+    <a href="#16_最類似薬">16.最類似薬</a>
+    <a href="#17_薬理作用類似薬">17.薬理作用類似薬</a>
+    <a href="#19_剤形間比">19.剤形間比</a>
+    <a href="#20_類似薬効比較方式_Ⅰ_">20.類似薬効比較方式(Ⅰ)</a>
+    <a href="#21_類似薬効比較方式_Ⅱ_">21.類似薬効比較方式(Ⅱ)</a>
+    <a href="#22_原価計算方式">22.原価計算方式</a>
+    <a href="#22_原価計算方式_研究開発費_">22.原価計算方式（研究開発費）</a>
+    <a href="#22_原価計算方式_計上不認費用_">22.原価計算方式（計上不認費用）</a>
+    <a href="#22_原価計算方式_輸入原価_">22.原価計算方式（輸入原価）</a>
+    <a href="#22_原価計算方式_バイオ医薬品_">22.原価計算方式（バイオ医薬品）</a>
+    <a href="#22_原価計算方式_開示度_">22.原価計算方式（開示度）</a>
+    <a href="#22_原価計算方式_助成金_">22.原価計算方式（助成金）</a>
+    <a href="#23_補正加算">23.補正加算</a>
+    <a href="#24_画期性加算">24.画期性加算</a>
+    <a href="#26_有用性加算_Ⅱ_">26.有用性加算(Ⅱ)</a>
+    <a href="#27_市場性加算_Ⅰ_">27.市場性加算(Ⅰ)</a>
+    <a href="#28_市場性加算_Ⅱ_">28.市場性加算(Ⅱ)</a>
+    <a href="#30_小児加算">30.小児加算</a>
+    <a href="#32_迅速導入加算">32.迅速導入加算</a>
+    <a href="#34_外国平均価格調整">34.外国平均価格調整</a>
+    <a href="#35_規格間調整">35.規格間調整</a>
+    <a href="#新薬算定補正加算対象">新薬算定補正加算対象</a>
+    <a href="#補正加算非対象の場合">補正加算非対象の場合</a>
+    <a href="#新薬算定最類似薬">新薬算定最類似薬</a>
+    <a href="#新規後発品">新規後発品</a>
+    <a href="#キット製品特例">キット製品特例</a>
+    <a href="#類似処方配合剤_新医療用配合剤">類似処方配合剤・新医療用配合剤</a>
+    <a href="#第1節_市場実勢価格">第1節 市場実勢価格</a>
+    <a href="#第2節_比較薬の取扱い">第2節 比較薬の取扱い</a>
+    <a href="#第2節">第2節</a>
+    <a href="#第4節1_後発品収載後5年経過品">第4節1 後発品収載後5年経過品</a>
+    <a href="#第4節1">第4節1</a>
+    <a href="#第4節2_G2品目">第4節2 G2品目</a>
+    <a href="#第4節_前倒しG1">第4節 前倒しG1</a>
+    <a href="#第4節_前倒しG1撤退">第4節 前倒しG1撤退</a>
+    <a href="#第4節">第4節</a>
+    <a href="#第5節1_市場拡大再算定">第5節1 市場拡大再算定</a>
+    <a href="#第5節1_同一組成既収載品群">第5節1 同一組成既収載品群</a>
+    <a href="#第5節1">第5節1</a>
+    <a href="#第5節1_基準年間販売額">第5節1 基準年間販売額</a>
+    <a href="#第5節1_3_類似品">第5節1（3）類似品</a>
+    <a href="#別表6_補正加算">別表6 補正加算</a>
+    <a href="#第5節2_効能変化再算定">第5節2 効能変化再算定</a>
+    <a href="#第5節2">第5節2</a>
+    <a href="#第5節3_用法用量変化再算定">第5節3 用法用量変化再算定</a>
+    <a href="#第5節4_薬価改定の際以外の再算定">第5節4 薬価改定の際以外の再算定</a>
+    <a href="#第5節4">第5節4</a>
+    <a href="#第6節_再生医療等製品">第6節 再生医療等製品</a>
+    <a href="#第6節">第6節</a>
+    <a href="#第7節_後発品価格帯">第7節 後発品価格帯</a>
+    <a href="#第7節">第7節</a>
+    <a href="#第8節1_基礎的医薬品">第8節1 基礎的医薬品</a>
+    <a href="#第8節2_不採算品再算定">第8節2 不採算品再算定</a>
+    <a href="#節名称">節名称</a>
+    <a href="#第9節">第9節</a>
+    <a href="#第10節">第10節</a>
+    <a href="#第10節_希少疾病">第10節 希少疾病</a>
+    <a href="#第10節_小児">第10節 小児</a>
+    <a href="#第10節_臨床的有用性">第10節 臨床的有用性</a>
+    <a href="#第11節_外国平均価格調整">第11節 外国平均価格調整</a>
+    <a href="#その他">その他</a>
+  </div>
+</div>
+
+<div class="main-content">
+
+<section id="1_薬価">
+  <div class="section-header">
+    <h2>1.薬価</h2>
+    <div class="section-desc">薬価・一日薬価の定義・計算方法</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6/R8 問1</span>
+    <span class="card-note">R6「中医協建議」→R8「中医協等中」（要確認）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問1　「薬価」の定義にある「薬価算定単位当たりの平均的な費用の額」とはどういうことか。<br>
+（答）薬価算定のあり方の基本は、市場において形成された実勢価格が薬価基準に迅速、適切に反映されること（昭和57年9月18日中医協建議）であり、各品目の薬価は、各規格単位当たりの市場実勢価格の加重平均値をもとに定められた額である、ということ。<br>
+また、「薬価算定単位当たり」という表現は、薬価調査において把握された全包装単価についての価格調査結果をもとに規格単位当たりの加重平均値を算出していることに起因している。<br>
+<br>
+＜別銘柄と見なさない算定＞</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問1　「薬価」の定義にある「薬価算定単位当たりの平均的な費用の額」とはどういうことか。<br>
+（答）薬価算定のあり方の基本は、市場において形成された実勢価格が薬価基準に迅速、適切に反映されること（昭和57年9月18日中医協答申）であり、各品目の薬価は、その規格単位当たりの市場実勢価格の加重平均値をもとに定められた額である、ということ。<br>
+また、「薬価算定単位当たり」という表現は、薬価調査において把握された全包装単価についての価格調査結果をもとに規格単位当たりの加重平均値を算出していることに起因している。<br>
+＜別の品目として薬価算定を行わない品目＞</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="別の品目">
+  <div class="section-header">
+    <h2>別の品目</h2>
+    <div class="section-desc">別の品目として薬価算定を行わない品目</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6/R8 問2</span>
+    <span class="card-note">見出し変更「別銘柄と見なさない算定」→「別の品目として薬価算定を行わない品目」</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問2　(1)の具体例（組成、剤形、規格及び製造販売業者等の全てが同一である場合）は？<br>
+（答）例えば、次の場合。<br>
+① 名称変更に伴う代替新規。<br>
+② 既に、組成、剤形、規格及び製造販売業者等が同一の既収載品があるものの、別の効能・効果を持つものであって、かつ、既収載品と同一規格の場合。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問2　(1)の具体例（組成、剤形、規格及び製造販売業者等の全てが同一である場合）は。<br>
+（答）例えば、次の場合。<br>
+① 名称変更に伴う代替新規。<br>
+② 既に、組成、剤形、規格及び製造販売業者等同一の既収載品があるものの、別の効能・効果を持つものであって、かつ、既収載品と同一規格の場合。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="薬価">
+  <div class="section-header">
+    <h2>薬価</h2>
+    <div class="section-desc">薬価</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問3</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問3　(3)にある、別に薬価を定める必要性が乏しいとする、「使用状況、購入状況その他の状況」の具体的判断基準を示されたい。<br>
+（答）公定規格が定められている等の理由による医療現場での使い分けの状況を総合的に勘案して判断されるものであり、例えば、日本薬局方、生物学的製剤基準等に収載されているような品目が挙げられる。<br>
+（解説）例えば局方品は、公的な品質基準が定まっているので、医療現場で銘柄にて使い分けることはないと判断して統一価格としているもの。ただし、「医療現場での使い分けの状況」に関しては、従来は銘柄別収載されていた品目が新たに局方品となった場合において、局方収載前に品目毎の使い分けがなされていたと判断される場合には、局方収載後であっても同一価格とせずに引き続き別銘柄として算定することもあり得る。<br>
+<br>
+2　一日薬価</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問3　(3)にある、別に薬価を定める必要性が乏しいとする、「使用状況、購入状況その他の状況」の具体的判断基準を示されたい。<br>
+（答）公定規格が定められている等の理由による医療現場での使い分けの状況等を総合的に勘案して判断されるものであり、例えば、日本薬局方、生物学的製剤基準等に収載されているような品目が挙げられる。<br>
+（解説）例えば局方品は、公的な品質基準が定まっているので、医療現場で銘柄にて使い分けることはないと判断して統一価格としているもの。ただし、「医療現場での使い分けの状況」に関して、従来は銘柄別収載されていた品目群が新たに局方品となった場合において、局方収載前に品目毎の使い分けがなされていたと判断される場合には、局方収載後であっても同一価格とせずに引き続き別銘柄として算定することもあり得る。<br>
+2　一日薬価</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="一日薬価_一日通常最大単位数量">
+  <div class="section-header">
+    <h2>一日薬価・一日通常最大単位数量</h2>
+    <div class="section-desc">一日薬価不明・一回薬価・一日通常最大単位数量</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問4〜14</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（4〜14 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（4〜14 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="9_新薬">
+  <div class="section-header">
+    <h2>9.新薬</h2>
+    <div class="section-desc">新薬の定義（再審査・代替新規・薬価削除後再収載）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6/R8 問15</span>
+    <span class="card-note">R6「新剤形医薬品として薬価収載された場合」→R8「剤形追加の際に新剤形医薬品として収載され再審査が付された場合」</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問15　既収載品の薬価収載の際に、新剤形医薬品として薬価収載された場合、その新規収載品は新薬扱いとなるか。<br>
+（答）再審査が付された新規収載品は新薬扱い。ただし、それ以前に収載されている同一組成・同一投与形態の品目については新薬ではない。<br>
+（解説）定義「新薬」ロは、「…同一の既収載品（新薬として薬価収載されたものに限る。）がある」という意味なので、時系列をみると明らかになるが、後から追加された剤形等に再審査がついても、それ以前の既収載品には遡及して適用することはない。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問15　既収載品の剤形追加の際に新剤形医薬品として承認され再審査が付された場合、その新規収載品は新薬扱いか。<br>
+（答）再審査が付された新規収載品は新薬扱い。ただし、それ以前に収載されている、再審査が付されていない同一組成・同一投与形態の品目については新薬ではない。<br>
+（解説）定義「新薬」ロは、「…同一の既収載品（新薬として薬価収載されたものに限る。）がある新既収載品」という意味なので、時系列をみると明らかに既収載「新薬」があったとき、その規格追加、剤形追加がみなし新薬となることがわかる。後から追加された剤形等に再審査がついても、それ以前の既収載品には遡及して適用することはない。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問16〜17</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（16〜17 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（16〜17 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問18</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問18　ある錠剤が既に薬価収載（再審査制度以前）されているところ、同一組成のシロップ剤</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問18　ある錠剤が既に薬価収載（再審査制度以前）されているところに、同一組成のシロップ剤が再審査４年で新剤形医薬品として承認され、薬価収載された場合、既存の錠剤は新薬にみ<br>
+なされるか。<br>
+（答）みなさない。（過去の収載品目に遡及はしない（第４章３経過措置（1）参照））</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6/R8 問19</span>
+    <span class="card-note">R6「代替新規の新薬扱い」→R8「代替新規・薬価削除後再収載の新薬扱い」に拡充</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問19　新薬として薬価収載された既収載品の薬価改定は、先発品として薬価改定が行われるのか、既収載品として薬価改定が行われるのか。<br>
+（答）既収載品は新薬基準に基づくものであり、別の観点で、薬価改定の際に定める新薬と既収載品の新規収載の医薬品基準から薬価算定を行う際の比較薬として扱う。<br>
+<br>
+＜個品薬価＞<br>
+<br>
+11.　汎用新規収載品</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問19　新薬として薬価収載された既収載品の代替新規は、収載後、新薬とみなされるか。同様に、新薬として収載された既収載品の薬価削除後に新規収載するその代替新規の場合はどうか。<br>
+（答）定義９「新薬」ロにより、組成、投与形態及び製造販売業者等が同一の（新薬として薬価収載された）既収載品が薬価基準から削除されたとしても、当該新規収載品は新薬扱いとなる。<br>
+＜報告品目＞</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="11_汎用新規収載品">
+  <div class="section-header">
+    <h2>11.汎用新規収載品</h2>
+    <div class="section-desc">汎用新規収載品・類似処方医療用配合剤</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6/R8 問20</span>
+    <span class="card-note">R8では類似処方医療用配合剤への言及が追加</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">（本文未確認）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問20　報告品目は、薬価算定上、新薬と新規後発品のどちらで取り扱うのか。<br>
+（答）新規収載品については、新薬の定義に該当するものは新薬として算定し、新規後発品に該当するものは新規後発品として算定する。ただし、類似処方医療用配合剤については第３部２類似処方医療用配合剤の薬価算定により算定される。<br>
+11.　汎用新規収載品</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問21〜24</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（21〜24 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（21〜24 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="13_既収載品">
+  <div class="section-header">
+    <h2>13.既収載品</h2>
+    <div class="section-desc">既収載品の取扱い</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問25〜26</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（25〜26 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（25〜26 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="14_汎用規格">
+  <div class="section-header">
+    <h2>14.汎用規格</h2>
+    <div class="section-desc">汎用規格の年間販売量算出</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問27〜29</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（27〜29 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（27〜29 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="15_類似薬_16_最類似薬">
+  <div class="section-header">
+    <h2>15.類似薬・16.最類似薬</h2>
+    <div class="section-desc">類似薬・最類似薬の選定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問30〜36</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（30〜36 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（30〜36 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="16_最類似薬">
+  <div class="section-header">
+    <h2>16.最類似薬</h2>
+    <div class="section-desc">最類似薬の選定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問37〜38-2</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（37〜38-2 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（37〜38-2 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="17_薬理作用類似薬">
+  <div class="section-header">
+    <h2>17.薬理作用類似薬</h2>
+    <div class="section-desc">薬理作用類似薬の取扱い</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問39〜41</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（39〜41 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（39〜41 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="19_剤形間比">
+  <div class="section-header">
+    <h2>19.剤形間比</h2>
+    <div class="section-desc">剤形間比の算定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問42</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問42　剤形間比の対象薬の範囲は新薬算定においては、薬価算定上の新薬のみか。<br>
+（答）原則としてそうだが、「定義15 類似薬ロ」に示すように必要と認められるときは、新規後発品として薬価収載されたもの以外の既収載品も含まれる。<br>
+（解説）（1）「薬価算定の基準」第1章定義20ロにおいて、類似薬の定義（定義15ロ）によることとなる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問42　剤形間比の対象薬の範囲は新薬算定においては、薬価算定上の新薬のみか。<br>
+（答）原則としてそうだが、「定義15類似薬ロ」に示すように必要と認められるときは、新規後発品として薬価収載されたもの以外の既収載品も含まれる。<br>
+（解説）①「薬価算定の基準」第１章定義20において、類似薬効比較方式（Ⅰ）の場合『類似薬の剤形間比』を用いることとしているため、類似薬の定義（定義15ロ）によることとなる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6/R8 問43</span>
+    <span class="card-note">R6「二剤形とも新薬であるものがあれば」→R8「三剤形とも新薬であるものがあれば」</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問43　剤形間比の対象薬候補の2品目（剤形Aと剤形B：同一組成・同一製造販売業者）において、一方だけが薬価算定上の新薬である場合、これら薬剤を対象薬に用いることが可能か。<br>
+（答）可能である。ただし、類似性が同程度のものの中に二剤形とも新薬であるものがあれば、それを優先させる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問43　剤形間比の対象薬候補の２品目（剤形Aと剤形B：同一組成・同一製造販売業者）において、一方だけが薬価算定上の新薬である場合、これら薬剤を対象薬に用いることが可能か。<br>
+（答）可能である。ただし、類似性が同程度のものの中に二剤形とも新薬であるものがあれば、それを優先させる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6/R8 問44</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問44　剤形間比の算出例を示されたい。<br>
+（答）同一組成・同一製造販売業者で2.5mg錠12.70円、液剤0.75%1mL 37.20円の場合<br>
+錠→液の剤形間比＝（37.20円/7.5mg）/（12.70円/2.5mg）＝ 0.9764<br>
+（解説）「有効成分の含有量当たりの薬価の比」との表現は1g当たりの薬価の比（1次比）を表している。<br>
+<br>
+20.　類似薬効比較方式（Ⅰ）（p.6）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問44　剤形間比の算出例を示されたい。<br>
+（答）同一組成・同一製造販売業者で2.5mg錠12.70円、液剤0.75%1mL 37.20円の場合<br>
+錠→液剤の剤形間比＝（37.20円/7.5mg）/（12.70円/2.5mg）＝0.9764<br>
+（解説）「有効成分の含有量当たりの薬価の比」との表現は1g当たりの薬価の比（1次比）を表している。<br>
+20.　類似薬効比較方式（Ⅰ）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="20_類似薬効比較方式_Ⅰ_">
+  <div class="section-header">
+    <h2>20.類似薬効比較方式(Ⅰ)</h2>
+    <div class="section-desc">類似薬効比較方式（Ⅰ）― 補正加算控除・規格単位設定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問45（新設）</span>
+    <span class="card-note">比較薬が原価計算方式（営業利益率加算対象）の場合の補正加算控除</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問45　類似薬効比較方式（Ⅰ）における比較薬が2018年度より前に原価計算方式によって算定され、営業利益率の加算（希少疾病や小児等）の対象品目だった場合は比較薬の一日薬価の有用性系加算以外の補正加算の控除対象とならないという理解でよいか。<br>
+（答）比較薬の一日薬価の有用性系加算以外の補正加算の控除において、原価計算方式における営業利益率の加算は、有用性系加算以外の補正加算とはみなされない。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問46（新設）</span>
+    <span class="card-note">補正加算控除の計算方法（比較薬が改定・再算定等を経た場合）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問46　以下のような場合に、比較薬の一日薬価の有用性系加算以外の補正加算の控除に係る、加算額に相当する額はどのように計算するのか。<br>
+・類似薬効比較方式における比較薬が有用性系加算を取得した品目の場合<br>
+・類似薬効比較方式における比較薬が市場実勢価に基づく改定を経ている場合<br>
+・類似薬効比較方式における比較薬が再算定又は費用対効果評価による価格調整を受けている場合<br>
+・類似薬効比較方式における比較薬が改定時加算や収載後の外国平均価格調整を受けている場合<br>
+（答）原則、比較薬の算定時薬価に対する比較薬の算定時の補正加算の加算額の割合を、比較薬の現行薬価に乗じた額を加算額に相当する額とみなして計算を行う。<br>
+比較薬における有用性系加算以外の補正加算に相当する額の控除の判断にあたっては、当該新薬の薬価算定上の比較薬（又は比較薬の薬価算定上の比較薬等）のうち、過去15年間に薬価収載された既収載品における有用性系加算以外の補正加算の適用の状況を勘案して、その要否を判断する。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問47（新設）</span>
+    <span class="card-note">同一組成算定の類似薬効比較方式への控除適用</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問47　同一組成の算定にあたり類似薬効比較方式で算定する場合（錠剤→顆粒など）についても、比較薬の一日薬価の有用性系加算以外の補正加算の控除の対象となるのか。<br>
+（答）類似薬効比較方式で算定される場合は、類似処方医療用配合剤の薬価算定、新医療用配合剤の薬価算定、ラセミ体又は先行品が存在する新薬の薬価算定を除き、控除の対象となる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問48（新設）</span>
+    <span class="card-note">比較薬が改定時加算適用済みでも新薬の加算適用可否</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問48　比較薬が、希少疾病や小児に係る効能又は効果等を追加したことに伴い、薬価改定時の加算の適用を受けていても、新薬が市場性加算（Ⅰ）や小児加算の要件を満たしていれば、加算の適用は可能と考えてよいか。<br>
+（答）新薬が市場性加算（Ⅰ）や小児加算の要件を満たしているのであれば、当該加算の適用対象となる。加算率については、薬価改定時に受けた加算項目やその内容も考慮した上で判断がなされる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問45 → R8 問49</span>
+    <span class="card-note">R6では「類似薬に剤形間比がない」の問→R8問49の内容変更</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問45　「類似薬に剤形間比がない場合は1とする」とあるが、主たる効能・効果が異なる場合は類似薬といえないと理解してよいか。また、剤形間比をとるものの主たる効能・効果が異なる場合は、類似薬といえないと理解してよいか。<br>
+（答）15「類似薬」イロハニの事項に照らし、新規収載品の主たる効能・効果に着目して薬価算定組織において総合的に判断されるものであり（ケースバイケース）。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問49　「類似薬に剤形間比がない場合には１とする」とあるが、主たる効能・効果が異なる場合は類似薬といえないと理解してよいか。また、剤形間比をとるものの主たる効能・効果が異なる場合は、類似薬といえないと理解してよいか。<br>
+（答）15「類似薬」イロハニの事項に照らし、新規収載品の主たる効能・効果に着目して薬価算定組織において総合的に判断されるものでありケースバイケース。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問46 → R8 問50</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問46　定義20のロによると、「必要があると認められる場合」は剤形区分間比を用いることができるが、どのような場合が該当するのか。<br>
+（答）例えば、剤形間比をとれる類似薬のない場合は該当する。<br>
+（例）細粒剤→シロップ剤<br>
+同一製造販売業者が同一成分で細粒剤とシロップ剤を同時に薬価収載したものは、新薬収載品にはない。<br>
+そこで剤形区分間比にまで広げれば、例えば散剤→シロップ剤等の組み合わせも存在する。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問50　定義20ロによると、「必要があると認められる場合」は剤形区分間比を用いることができるが、どのような場合が該当するのか。<br>
+（答）例えば、剤形間比をとれる類似薬のない場合が該当する。<br>
+（例）細粒剤−シロップ剤の剤形間比<br>
+同一製造販売業者が同一成分で細粒剤とシロップ剤を同時に薬価収載しているものは、新薬収載品にはない。<br>
+そこで剤形区分間比まで広げれば、例えば散剤 ― シロップ剤等の組み合わせは存在する。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問47 → R8 問51</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問47　投与形態が異なる場合の算定例を示されたい。<br>
+（答）例えば内用薬と注射薬の場合。<br>
+（例）例えば、A社価格は一日薬価、B社価格は薬価。<br>
+| 注射剤 | 錠・カプセル |<br>
+| A社：○○注1%1mL（新薬）X円 | A社：○○錠1mg（比較薬）100円 |<br>
+| B社：△△注1%1mL（既収載）180円 | B社：△△カプセル20mg（既収載）80円 |<br>
+新薬の一日薬価＝比較薬の一日薬価×剤形間比<br>
+＝100×（180/10）/（80/20）<br>
+＝450円</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問51　投与形態が異なる場合の算定例を示されたい。<br>
+（答）例えば内用薬と注射剤の場合。<br>
+（例）例えば、A社価格は一日薬価、B社価格は薬価。<br>
+注射剤<br>
+錠・ｶﾌﾟｾﾙ<br>
+A社：○○注1%1mL（新薬）X円<br>
+A社：○○錠1mg（比較薬）100円<br>
+B社：△△注1%1mL（既収載）180円<br>
+B社：△△ｶﾌﾟｾﾙ20mg（既収載）80円<br>
+新薬の一日薬価＝比較薬の一日薬価×剤形間比<br>
+＝100×（180／10）／（80／20）<br>
+＝450円</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問48 → R8 問52</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問48　点眼薬の場合、どのように規格単位当たりの薬価を設定するか。<br>
+（答）比較薬との一日薬価あわせは、比較薬の一日用量が滴数にて設定されている場合は滴数にて比較する。なお、1mL当たり薬価の場合、1mL＝20滴として算出する。<br>
+<br>
+21.　類似薬効比較方式（Ⅱ）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問52　点眼薬の場合、どのように規格単位当たりの薬価を設定するか。<br>
+（答）比較薬との一日薬価合わせは、比較薬の一日用量が滴数にて設定されている場合は滴数にて比較する。なお、1mL当たりの薬価の場合、1mL＝20滴として算出する。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問53（新設）</span>
+    <span class="card-note">内用薬の規格単位設定（1瓶単位も可）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問53　内用薬である新規収載品の規格単位について、例えば1瓶単位での設定も認められるのか。<br>
+（答）規格単位については、当該新規収載品の製剤の含量や特性、用法用量等を踏まえて設定されるものであり、内用薬について、1瓶単位での設定が否定されるものではない。<br>
+21.　類似薬効比較方式（Ⅱ）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="21_類似薬効比較方式_Ⅱ_">
+  <div class="section-header">
+    <h2>21.類似薬効比較方式(Ⅱ)</h2>
+    <div class="section-desc">類似薬効比較方式（Ⅱ）― 比較薬の範囲・複数控除の順序</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問54（新設）</span>
+    <span class="card-note">第3章第3節品目を比較薬とした場合の複数控除の順序</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問54　第３章第３節の規定される既収載品であり、有用性系加算以外の補正加算が適用されている医薬品を比較薬として算定する場合、「第３章第２節２に規定する革新的新薬薬価維持制度の累積額に相当する額」と「比較薬の一日薬価の有用性系加算以外の補正加算の控除に係る加算額に相当する額」はそれぞれどのように計算するのか。<br>
+（答）それぞれに該当する場合、「第３章第２節２に規定する革新的新薬薬価維持制度の累積額に相当する額又は第３章第３節の規定により当該額の算出の対象となった既収載品が控除される額」の控除を行った後に、「比較薬の一日薬価の有用性系加算以外の補正加算の控除に係る加算額に相当する額」の控除を行う。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問49 → R8 問55</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問49　類似薬効比較方式（Ⅱ）による算定において、「過去6年間に薬価収載された」とは、いつからいつまでを指すのか？<br>
+（答）当該新薬の承認日の前日から起算する。<br>
+（解説）定義「21　類似薬効比較方式(Ⅱ)」において、「なお、次の各号に規定する期間については、当該新薬が承認を受けた日の前日から起算して計算する。」とある。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問55　類似薬効比較方式（Ⅱ）による算定において、「過去６年間に薬価収載された」とは、いつからいつまでを指すのか。<br>
+（答）当該新薬の承認日の前日から起算する。<br>
+（解説）定義「21 類似薬効比較方式（Ⅱ）」において、「なお、次の各号に規定する期間については、当該新薬が承認を受けた日の前日から起算して計算する。」とある。<br>
+（例）<br>
+承認日<br>
+規定する期間<br>
+過去6年間<br>
+過去10年間<br>
+当該新薬<br>
+2001/5/8<br>
+—<br>
+（承認日の前日）<br>
+2001/5/7<br>
+0月<br>
+既存新薬A<br>
+1998/5/25<br>
+2年11月<br>
+○<br>
+○<br>
+既存新薬B<br>
+1996/11/20<br>
+4年5月<br>
+○<br>
+○<br>
+既存新薬C<br>
+1995/5/8<br>
+5年11月<br>
+○<br>
+○<br>
+既存新薬D<br>
+1995/5/7<br>
+6年ちょうど<br>
+○<br>
+○<br>
+既存新薬E<br>
+1995/5/6<br>
+6年0月<br>
+×<br>
+○<br>
+既存新薬F<br>
+1992/8/24<br>
+8年8月<br>
+×<br>
+○<br>
+既存新薬G<br>
+1988/3/24<br>
+13年1月<br>
+×<br>
+×</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問50 → R8 問56</span>
+    <span class="card-note">ほぼ同じ（名称変更含む）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問50　算定値が類似薬効比較方式（I）での算定値を上回らないことを確認する際、薬理作用類似薬の中から最類似薬を選択することが困難なため、複数品目が最類似薬になってしまう場合にはどうすればよいか。<br>
+（答）複数の最類似薬についてそれぞれ類似薬効比較方式（I）で算出した算定値を比較対象とする。<br>
+（解説）例えば共同開発の2品目が最類似薬となる場合には、類似薬効比較方式（I）によって算定される額を各々の年間販売量で加重平均した額を比較対象とする。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問56　算定額が類似薬効比較方式（Ⅰ）での算定値を上回らないことを確認する際、薬理作用類似薬の中から最類似薬を選択することが困難なため、複数品目が最類似薬になってしまう場合にはどうすればよいか。<br>
+（答）複数の最類似薬について類似薬効比較方式（Ⅰ）で算出した算定値を比較対象とする。<br>
+（解説）例えば共同開発の２品目が最類似薬となる場合には、類似薬効比較方式（Ⅰ）によって算定される額を各々の年間販売量で加重平均した額を比較対象とする。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問50-2 → R8 問56-2</span>
+    <span class="card-note">R6「新薬創出等加算」→R8「革新的新薬薬価維持制度」名称変更</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問50-2　第3章第2節の規定により控除すべき額に相当する額は、どのように算出するのか。<br>
+（答）例えば、当該比較薬が新薬創出等加算の対象外であって、類似薬効比較方式（I）で算定されたものである場合は、当該比較薬の算出のもととなった既収載品を比較薬にして類似薬効比較方式（I）で算定された時点までに新薬創出等加算を受けた額を控除する。<br>
+<br>
+22.　原価計算方式</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問56-2　第３章第３節の規定により当該額の算出の対象となった医薬品が控除すべき額に相当する額は、どのように算出するのか。<br>
+（答）例えば、当該額の算出の対象となった医薬品が、革新的新薬薬価維持制度の適用対象外であって、革新的新薬薬価維持制度の適用を受けたことのある既収載品を比較薬にして類似薬効比較方式（Ⅰ）で算定されたものである場合は、当該比較薬が当該医薬品の算定時点までに革新的新薬薬価維持制度の適用を受けた各年度における革新的新薬薬価維持制度の平均的な控除率の合計を基に、第３章第３節の規定により控除すべき額に相当する額を算出する。ただし、令和２年度改定の前に収載された品目は第３章第３節の規定の対象にならない。<br>
+22.　原価計算方式</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="22_原価計算方式">
+  <div class="section-header">
+    <h2>22.原価計算方式</h2>
+    <div class="section-desc">原価計算方式（全般・開示度・助成金・バイオ医薬品）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問51 → R8 問57</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問51　標準的な係数はどの値を用いるのか。<br>
+（答）例えば、一般管理販売費、営業利益については、「産業別財務データハンドブック」（日本政策投資銀行編）による医薬品製造業の平均的な係数が挙げられる。流通経費については医薬品製造業の平均的な係数が挙げられる。また、労務費については、「毎月勤労統計」（厚生労働省編）における医薬品製造業の平均的な係数。<br>
+<br>
+＜研究開発費＞</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問57　標準的な係数はどの値を用いるのか。<br>
+（答）例えば、一般管理販売費、営業利益については、「産業別財務データハンドブック」（日本政策投資銀行編）による医薬品製造業の平均的な係数が挙げられる。流通経費については医薬品卸業の平均的な係数が挙げられる。<br>
+また、労務費については、「毎月勤労統計」（厚生労働省編）における医薬品製造業の平均的な係数。<br>
+＜研究開発費＞</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-2 → R8 問59-2</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-2　既存治療とは手術などの非薬物療法も含むと考えて良いか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-2　既存治療とは手術などの非薬物療法も含むと考えて良いか。<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-3 → R8 問59-3</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-3　平均的な営業利益率がマイナス評価の要素となるのはどのような場合か。<br>
+（答）既存治療と比較した革新性が低く、開発リスクが高くないものとして、例えば、当該成分が院内製剤等により医療現場ですでに用いられており、当該成分の有用性が明らかとなっているもの等が挙げられる。<br>
+また、国内で適切な規模の臨床試験が実施されていない場合や、日本の医療環境下での使用時の有効性・安全性の予測に関するデータが少ない場合には、営業利益等の評価において、マイナス評価として考慮される場合がある。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-3　平均的な営業利益率がマイナス評価の要素となるのはどのような場合か。<br>
+（答）既存治療と比較した革新性が低く、開発リスクが高くないものとして、例えば、当該成分が院内製剤等により医療現場ですでに用いられており、当該成分の有用性が明らかとなって<br>
+いるものが例として挙げられる。<br>
+また、国内で適切な規模の臨床試験が実施されていない場合等、日本の医療環境下での使用時の有効性・安全性の予測に関するデータが少ない場合には、営業利益率の評価において、マイナス評価として考慮される場合がある。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-4 → R8 問59-4</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-4　国内臨床試験成績が充実しており、日本の医療環境下での使用時の有効性・安全性の予測がより高いと評価される場合には、類似薬効比較方式及び原価計算方式における補正加算の評価において考慮されるのか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-4　国内臨床試験成績が充実しており、日本の医療環境下での使用時の有効性・安全性の予測がより高いと評価される場合には、類似薬効比較方式及び原価計算方式における補正加算の評価において考慮されるのか。<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-7 → R8 問59-7</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-7　「日本以外の国への輸出価格の状況等の輸入原価設定の根拠となる資料を提出すること」とされているが、当該情報が相手先企業にとって企業秘密に属するため、入手できない場合の取扱いはどのようになるのか。<br>
+（答）日本への輸出価格の妥当性を示す資料として、現地における製造原価に関する資料等を提出すること。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-7　「日本以外の国への輸出価格の状況等の輸入原価設定の根拠となる資料を提出すること」とされているが、当該情報が相手先企業にとって企業秘密に属するため、入手できない場合の取り扱いはどのようになるのか。<br>
+（答）日本への輸入価格の妥当性を示す資料として、現地における製造原価に関する資料等を提出すること。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問53-10 → R8 問59-10</span>
+    <span class="card-note">R8版が業務時間の妥当性認定の条件を追記</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-10　例えば、業務委託を行うにあたって発生する費用のうち、自社で業務を行った場合でも発生する費用について、これらに要した業務時間及び労務費単価が明示可能であれば、薬価算定組織での開示が可能な額として考えてよいか。<br>
+（答）労務時間について妥当性が認められれば、「毎月勤労統計調査」及び「就労条件総合調査」による標準的な労務費単価が「薬価算定組織での開示が可能な額」としてみなされる。ただし、労務費単価が適用される場合には、標準的な労務費単価が適用される。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問59-10　例えば、業務委託を行うにあたって発生する費用のうち、自社で業務を行った場合でも発生する費用については、これらに要した業務時間及び労務費単価が明示可能であれば、「薬価算定組織での開示が可能な額」としてみなされるとの理解でよいか。<br>
+（答）労務時間について妥当性が認められれば、「薬価算定組織での開示が可能な額」としてみなされる。ただし、労務費単価が「毎月勤労統計調査」及び「就労条件総合調査」による標準的な労務費単価を超える場合には、標準的な労務費単価が適用される。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問53-12 → R8 問59-12</span>
+    <span class="card-note">R6「新薬創出等加算」→R8「革新的新薬薬価維持制度」名称変更</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-12　原価計算方式により算定された加算適用品については、加算係数が0であっても、新薬創出等加算の対象となると解してよいか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問59-12　原価計算方式により算定された加算適用品については、加算係数が0であっても、革新的新薬薬価維持制度の適用対象となると解してよいか。<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-13 → R8 問59-13</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-13　原価計算方式の場合は、加算額に対して、開示度に応じた加算係数が乗じられるが、この加算係数が乗じられる加算額には、例えば、市場性加算（Ⅰ）によるものも含まれるのか。<br>
+（答）市場性加算（I）は補正加算の一つであるため、加算係数が乗じられるものに含まれる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-13　原価計算方式の場合は、加算額に対して、開示度に応じた加算係数が乗じられるが、この加算係数が乗じられる加算額には、例えば、市場性加算（Ⅰ）によるものも含まれるのか。<br>
+（答）市場性加算（Ⅰ）は補正加算の一つであるため、加算係数が乗じられるものに含まれる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-14 → R8 問59-14</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-14　薬価算定基準には、原価計算方式について、「日本以外の国への輸出価格の状況等の資料の提出があった場合は、最低の価格を日本への輸出価格とみなす。」とあるが、4ヶ国以外への輸出価格が最低価格として用いられることがあるのか。<br>
+（答）算定に当たっては、原則として、これら4カ国への輸出価格を用いることとなるが、その情報がない場合など、必要に応じて参照することがあり得る。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-14　薬価算定基準には、原価計算方式について、「日本以外の国への輸出価格の状況等の資料の提出があった場合は、日本以外の各国（原則として、アメリカ合衆国、連合王国、ドイツ及びフランスとする。）への輸出価格のうち最低の価格を日本への輸出価格とみなす」とあるが、これら４ヶ国以外への輸出価格が最低価格として用いられることがあるのか。<br>
+（答）算定に当たっては、原則として、これら4ヶ国への輸出価格を用いることとなるが、その情報がない場合など、必要に応じて参照することがあり得る。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-15 → R8 問59-15</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-15　薬価算定基準には、原価計算方式について、日本以外の国への輸出価格の状況等の資料の提出があった場合は、日本を含む各国（原則として、アメリカ合衆国、連合王国、ドイツ及びフランスとする。）への輸出価格のうち最低の価格を日本への輸出価格とみなす。ただし、合理的な理由がある場合には、各国への輸出価格の平均価格又は２番目に低い価格等を日本の輸出価格とみなすことができる。」とあるが、この「合理的な理由」にはどのようなものが想定されるのか。<br>
+（答）例えば、輸入元の企業において日本国内の臨床試験を実施しており、その試験費用が日本への輸出価格に計上されている場合や、各国への移転価格の中に外れ値と考えられるものがある場合等が挙げられる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-15　薬価算定基準には、原価計算方式について、「日本以外の国への輸出価格の状況等の資料の提出があったときは、日本への輸出価格を超える場合を除き、各国（原則としてアメリカ合衆国、連合王国、ドイツ及びフランスとする。）への輸出価格のうち最低の価格を日本への輸出価格とみなす。ただし、合理的な理由がある場合には、各国への輸出価格の平均価格または２番目に低い価格等を日本への輸出価格とみなすことができる。」とあるが、この「合理的な理由」にはどのようなものを想定されるのか。<br>
+（答）例えば、輸入元の企業において日本国内の臨床試験を実施しており、その試験費用が日本への輸出価格に計上されている場合や、各国への移転価格の中に外れ値と考えられるものがある場合等が挙げられる。<br>
+23.　補正加算</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="22_原価計算方式_研究開発費_">
+  <div class="section-header">
+    <h2>22.原価計算方式（研究開発費）</h2>
+    <div class="section-desc">原価計算方式 ― 研究開発費の計上</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問52 → R8 問58</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問52　研究開発費の償却期間は何年を想定しているか。<br>
+（答）特許残存期間（後発品が出てこない期間）内で償却するものと理解しており、概ね再審査期間と同程度と想定している。特許残存期間が再審査期間より長い場合には特許残存期間の年数である。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問58　研究開発費の償却期間は何年を想定しているか。<br>
+（答）特許残存期間（後発品が出てこない期間）内で償却するものと理解しており、概ね再審査期間と同程度と想定している。特許残存期間が再審査期間より長い場合には特許残存期間の年数である。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53 → R8 問59</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53　海外からの導入品の場合、研究開発費には海外における開発費の一部を含むと考えているのか。<br>
+（答）海外での開発費は含まないと考えている。ただし、海外での開発費の一部はロイヤリティ（一般管理・販売費の細目にある）の中に含まれていると理解している。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59　海外からの導入品の場合、研究開発費には海外における開発費の一部を含むと考えるのか。<br>
+（答）研究開発費は国内における基礎研究費、臨床研究費、PMS費が含まれ、海外での開発費は含まれないと考えている。ただし、海外での開発費の一部はロイヤリティ（一般管理・販売費の細目にある）の中に含まれていると理解している。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="22_原価計算方式_計上不認費用_">
+  <div class="section-header">
+    <h2>22.原価計算方式（計上不認費用）</h2>
+    <div class="section-desc">原価計算方式 ― 計上が認められない費用</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問53-5 → R8 問59-5</span>
+    <span class="card-note">R8版が具体例を拡充（疾患啓発等の普及資料費、業務委託に係る費用の詳細）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-5　原価計算方式において計上が認められない費用の具体例を示していただきたい。<br>
+（答）<br>
+＜製造原価＞<br>
+・当該医薬品の直接の容器・包装ではない包装等に係る費用<br>
+＜一般管理販売費＞<br>
+・承認された効能・効果に直接関係しない適応に係る基礎研究、非臨床試験及び臨床試験に係る費用<br>
+・臨床試験等の関連に係る研究費用のうち、受託研究相当分を超える費用<br>
+・発売後臨床試験、承認後調査等のうち、薬事法により義務的に行われるものに係る費用<br>
+・多額の謝金等の費用、必要以上に華美と考えられるものに係る費用<br>
+・業務委託を行うにあたって発生する費用のうち、委託先の選定や委託先との契約事務に係る費用など、業務委託しなければ発生しない費用（委託した業務に要する費用については計上は認められる）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問59-5　原価計算方式において計上が認められない費用の具体例を示していただきたい。<br>
+（答）計上が認められない費用の例として、以下のようなものが挙げられる。<br>
+＜製造原価＞<br>
+・当該医薬品の直接の容器・包装ではない包装等に係る費用<br>
+＜一般管理販売費＞<br>
+・承認された効能・効果に直接関係しない適応に関する基礎研究、非臨床試験及び臨床試験に係る費用<br>
+・承認申請資料として提出されなかった非臨床試験及び臨床試験に係る費用<br>
+・臨床試験に係る受託研究費のうち、実施症例数相当分を超える費用<br>
+・研究会等の開催に係る費用のうち、飲食費、必要以上に華美と考えられる会場費、多額の謝金等<br>
+・疾患啓発等の普及・啓発資料等であって、当該医薬品の使用に限らないものに係る費用<br>
+・業務委託を行うにあたって発生する費用のうち、委託先の選定や委託先との契約事務に係る費用など、業務委託しなければ発生しない費用（委託した業務に要する経費、労務費など、自社で業務を行った場合でも発生するについては、計上は認められる）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="22_原価計算方式_輸入原価_">
+  <div class="section-header">
+    <h2>22.原価計算方式（輸入原価）</h2>
+    <div class="section-desc">原価計算方式 ― 輸入原価</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-6 → R8 問59-6</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-6　輸入医薬品の場合の「日本以外の国への輸出価格の状況等の輸入原価設定の根拠となる資料を提出すること」とあるが、日本が輸入する輸入先国から、外国価格を参照する4ヶ国（米英独仏）への輸出価格の提出が必要となるか。<br>
+（答）日本が輸入する輸入先国如何にかかわらず、原則として4ヶ国（米英独仏）への輸入先国からの輸出価格についても提出が必要である。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-6　「（輸入医薬品の場合）輸入先国における価格（当該輸入医薬品が原体である場合の当該原体の輸入先国の価格を含む。）の状況、日本以外の国への輸出価格の状況等の輸入原価設定の根拠となる資料を提出すること」とあるが、「日本以外の国への輸出価格の状況等の輸入原価設定の根拠となる資料」とは、日本が輸入する輸入先国から、外国価格を参照する4ヶ国（米英独仏）への輸出価格と考えてよいか。<br>
+（答）日本が輸入する輸入先国如何にかかわらず、原則として4ヶ国（米英独仏）への輸出価格の提出が必要となる。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="22_原価計算方式_バイオ医薬品_">
+  <div class="section-header">
+    <h2>22.原価計算方式（バイオ医薬品）</h2>
+    <div class="section-desc">原価計算方式 ― バイオ医薬品</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-8 → R8 問59-8</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-8　バイオ医薬品とは何か。再生医療等製品を含むのか。<br>
+（答）バイオ医薬品とは、バイオテクノロジー応用医薬品をいう。また、再生医療等製品は、薬価算定上、バイオ医薬品に含まれる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-8　バイオ医薬品には、再生医療等製品を含むのか。<br>
+（答）再生医療等製品は、薬価算定上、バイオ医薬品に含まれる。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="22_原価計算方式_開示度_">
+  <div class="section-header">
+    <h2>22.原価計算方式（開示度）</h2>
+    <div class="section-desc">原価計算方式 ― 開示度</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-9 → R8 問59-9</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-9　開示度の計算に用いる「製品総原価のうち薬価算定組織での開示が可能な額」について、製品総原価とは以下の費用でよいか。<br>
+（答）そのとおり。<br>
+・原材料費<br>
+・容器包装材料費<br>
+・労務費<br>
+・製造経費<br>
+・一般管理販売費</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-9　開示度の計算に用いる「製品総原価のうち薬価算定組織での開示が可能な額」について、製品総原価とは以下の費用でよいか。<br>
+・原材料費<br>
+・容器包装材料費<br>
+・労務費<br>
+・製造経費<br>
+・一般管理販売費<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="22_原価計算方式_助成金_">
+  <div class="section-header">
+    <h2>22.原価計算方式（助成金）</h2>
+    <div class="section-desc">原価計算方式 ― 助成金</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問53-11 → R8 問59-11</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問53-11　原価計算方式における控除の対象から開発後に売上高に応じた納付金等を求める交付金等は除くこととされたが、これらの費用にはどのようなものがあるのか、具体例を示していただきたい。<br>
+（答）日本医療研究開発機構による助成金（売上高に応じた納付金等を求めるものに限る。）や医薬基盤・健康・栄養研究所による希少疾病用医薬品、希少疾病用医療機器等への試験研究助成金等が挙げられる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問59-11　原価計算方式における控除の対象から開発後に売上高に応じた納付金等を求める交付金等は除かれているが、これらの費用にはどのようなものがあるのか、具体例を示していただきたい。<br>
+（答）日本医療研究開発機構による助成金（売上高に応じた納付金を求めるものに限る。）や医薬基盤・健康・栄養研究所による希少疾病用医薬品、希少疾病用医療機器等への試験研究助成金等が挙げられる。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="23_補正加算">
+  <div class="section-header">
+    <h2>23.補正加算</h2>
+    <div class="section-desc">補正加算（全般・令和6年度制度改革に基づく柔軟判断）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問54 → R8 問60</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問54　基準に照らして加算要件に該当するが、企業が加算を希望しない場合、加算は付されるのか。<br>
+（答）薬価算定組織において加算要件の適否を検討した結果、加算要件に該当する場合は企業の希望にかかわらず加算を付される。<br>
+<br>
+24.　画期性加算</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問60　基準に照らして加算要件に該当するが、企業が加算を希望しない場合、加算は付されるのか。<br>
+（答）薬価算定組織において加算要件の適否を検討した結果、加算要件に該当する場合は企業の<br>
+希望にかかわらず加算を付される。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問61（新設）</span>
+    <span class="card-note">【新設】令和6年度薬価制度改革に基づく加算率の柔軟判断（市場性加算・小児加算・迅速導入加算の考慮要素を明示）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問61　市場性加算、小児加算等の有用性系加算以外の補正加算に関して、令和6年度薬価制度改革の骨子において、「最近の医薬品の開発状況（国際共同治験など国際的な医薬品開発の状況）や、症例数等による治験の実施の困難さ等を踏まえ、加算率を柔軟に判断する」とされているが、加算率の評価にあたっては具体的にどのような要素が考慮されるのか。<br>
+（答）補正加算の項目によって考慮される要素は変わりうるが、例えば以下の要素が考えられる。<br>
+①　市場性加算（Ⅰ）、希少疾病に係る効能又は効果等が追加された既収載品の薬価改定時の加算の場合<br>
+・対象疾患の患者数（例：希少性、治験実施の困難さ）<br>
+・臨床試験成績の充実度（例：日本人症例数の割合）<br>
+・海外と比べた本邦での開発、導入時期<br>
+・優先審査の対象であるかどうか<br>
+・同種の適応の既収載品の有無<br>
+②　小児加算、小児に係る効能又は効果等が追加された既収載品の薬価改定時の加算の場合<br>
+・対象となる小児患者の年齢層<br>
+・臨床試験成績の充実度（例：日本人症例数の割合）<br>
+・成人と小児の同時開発（例：「成人を対象とした医薬品の開発期間中に行う小児用医薬品の開発計画の策定について」（令和6年1月12日付け医薬薬審発0112 第3号厚生労働省医薬局医薬品審査管理課長通知）に基づきPMDAから確認を受けた小児開発計画に基づき遅延なく開発が進められた品目）<br>
+・海外と比べた本邦での開発、導入時期<br>
+・同種の適応の既収載品の有無<br>
+③　迅速導入加算、迅速導入により効能又は効果等が追加された既収載品の薬価改定時の加算の場合<br>
+・欧米と比較して開発、申請、承認が先行しているか<br>
+・臨床試験成績の充実度（例：日本人症例数の割合）<br>
+24.　画期性加算</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="24_画期性加算">
+  <div class="section-header">
+    <h2>24.画期性加算</h2>
+    <div class="section-desc">画期性加算の要件・評価・資料提出</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問55 → R8 問62</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問55　「イ　臨床上有用な新規の作用機序を有すること」の具体的意味は「主たる効能又は効果に係る薬理作用類似薬がない」と解釈してよいか。<br>
+（答）その場合も考慮事項の一つとなるが、当該作用機序が臨床上有用であることが臨床試験等により客観的に示されているかどうかが大きな判断基準となる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問62　「イ　臨床上有用な新規の作用機序を有すること」の具体的意味は「主たる効能又は効果に係る薬理作用類似薬がない」と解釈してよいか。<br>
+（答）その場合も考慮事項の一つとなるが、当該作用機序が臨床上有用であることが臨床試験等により客観的に示されているかどうかが大きな判断基準となる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問56 → R8 問63</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問56　画期性加算、有用性加算（I）及び有用性加算（II）の要件ロにおいて、直接比較していなくても加算があり得ると理解して良いか。<br>
+（答）例えば、薬剤の特性上、直接比較試験ができない場合はあり得る。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問63　画期性加算、有用性加算（Ⅰ）及び有用性加算（Ⅱ）の要件ロにおいて、直接比較していなくとも加算があり得ると理解して良いか。<br>
+（答）例えば、薬剤の特性上、直接比較試験ができない場合はあり得る。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問57 → R8 問64</span>
+    <span class="card-note">R8版は薬事審議会の名称を統一し、後半に（参考）中医協答申を追記</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問57　有効性、安全性に関して、薬事・食品衛生審議会提出資料以外のものを評価に用いることができるのか。<br>
+（答）新医薬品の薬価算定は、薬事・食品衛生審議会（旧中央薬事審議会）資料に基づき実施するのが原則である。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問64　有効性、安全性に関して、薬事審議会提出資料以外のものを評価に用いることができるのか。<br>
+（答）新医薬品の薬価算定は、薬事審議会（旧中央薬事審議会）資料に基づき実施するのが原則である。薬事審議会資料に記載がないエビデンスであっても、医学・薬学の観点から科学的・客観的に十分に裏付けされていることを前提として、薬価算定組織において認められた場合には、評価に用いられることはありうる。<br>
+（参考）「中医協答申」（昭和57年9月18日）<br>
+第4　新医薬品の薬価算定については、「新医薬品の薬価算定に関する懇談会報告書」（昭和57年7月8日）に基づき、適正に行う。<br>
+「新医薬品の薬価算定に関する懇談会報告書」（昭和57年7月8日）<br>
+Ⅰ（4）新医薬品の薬価算定は、中央薬事審議会資料に基づき実施する。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問64-2（新設）</span>
+    <span class="card-note">加算適用評価のための資料提出（ポジティブ・ネガティブ両方を含むこと）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問64-2　加算適用の是非及び加算率の評価に用いるため、有用性のレベルや新薬の背景事情等に関する資料を提出して良いか。<br>
+（答）質問にある資料等を提出して差し支えないが、科学的・客観的な評価に耐えうる資料であること。それらを示す資料としては、当該新薬にとってポジティブなもののみならずネガティブなものを含むものであること。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問57-3 → R8 問64-3</span>
+    <span class="card-note">R6「類似薬又は既存治療に比して」→R8「類似薬に比して」（限定）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問57-3　画期性加算、有用性加算（I）及び有用性加算（II）の要件ロにおいては、「類似薬又は既存治療に比して」とされているが、類似薬効比較方式（I）で算定される品目において、既存治療に比して高い有効性又は安全性を有することが認められる場合、この要件を満たすと考えてよいか。<br>
+（答）類似薬がある場合、既存治療には類似薬が含まれることから、既存治療に比して高い有効性又は安全性を有することが認められるためには、類似薬に比して高い有効性又は安全性が認められることと同義となる。<br>
+<br>
+26.　有用性加算（II）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問64-3　画期性加算、有用性加算（Ⅰ）及び有用性加算（Ⅱ）の要件ロにおいては、「類似薬又は既存治療に比して」とされているが、類似薬効比較方式（Ⅰ）で算定される品目において、既存治療に比して高い有効性又は安全性を有することが認められる場合、この要件を満たすと考えてよいか。<br>
+（答）類似薬がある場合、既存治療には類似薬が含まれることから、既存治療に比して高い有効性又は安全性を有することが認められるためには、類似薬に比して高い有効性又は安全性が認められることと同義となる。<br>
+26.　有用性加算（Ⅱ）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="26_有用性加算_Ⅱ_">
+  <div class="section-header">
+    <h2>26.有用性加算(Ⅱ)</h2>
+    <div class="section-desc">有用性加算（Ⅱ）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問58 → R8 問65</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問58　製剤工夫以外の方法により、例えば、既存治療では必要とされる検査が不要になることや、投与後の患者の行動制限がないこと等により著しく高い利便性があり、治療方法の改善が示される場合は、有用性加算（II）ハに相当し得るか。<br>
+（答）そのとおり。ただし、既存の治療方法が特に限られた状況に新たな治療選択肢を提供すること等により著しい治療方法の改善が客観的に示される必要がある。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問65　製剤工夫以外の方法により、例えば、既存治療では必要とされる検査が不要になることや投与後の患者の行動制限がないこと等により著しく高い利便性があり、治療方法の改善が示される場合は、有用性加算（Ⅱ）ハに相当し得るか。<br>
+（答）そのとおり。ただし、既存の治療方法が特に限られた状況に新たな治療選択肢を提供すること等により著しい治療方法の改善が客観的に示される必要がある。<br>
+28.　市場性加算（Ⅱ）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="27_市場性加算_Ⅰ_">
+  <div class="section-header">
+    <h2>27.市場性加算(Ⅰ)</h2>
+    <div class="section-desc">市場性加算（Ⅰ）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問59（R8で削除）</span>
+    <span class="card-note">加算係数0の場合でも市場性加算(Ⅰ)算定可否・市場性加算(Ⅱ)・特定用途加算等への同様の考え方</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問59　市場性加算（I）は、「イ　希少疾病用医薬品であって、対象となる疾病又は負傷に係る効能又は効果が当該新規収載品の主たる効能又は効果であること」及び「ロ　当該新規収載品の比較薬が市場性加算（I）の適用を受けていないこと」のいずれの要件も満たす場合に算定されるものと規定されている。新規収載品の算定に当たり、当該新規収載品の比較薬が原価計算方式で算定され、市場性加算（I）の対象とされたものの、開示度が低いため加算係数が0となった場合、当該新規収載品についても市場性加算（I）の算定は可能と考えてよいか。<br>
+（答）そのとおり。なお、市場性加算（II）、特定用途加算及び小児加算の算定に当たっても同様の考え方が適用される。<br>
+<br>
+28.　市場性加算（II）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="28_市場性加算_Ⅱ_">
+  <div class="section-header">
+    <h2>28.市場性加算(Ⅱ)</h2>
+    <div class="section-desc">市場性加算（Ⅱ）― 対象薬効群の変更</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問60 → R8 問66</span>
+    <span class="card-note">対象薬効分類の変更（「泌尿器官用剤」→「吸収器官用剤」に変更、「アルキル化剤」削除、「習慣性中毒用剤・アルカリ化剤」追加）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問60　対象薬効群はどのようなものか。<br>
+（答）概ね以下のとおり。<br>
+＜市場性加算（II）の対象となる薬効分類＞<br>
+全身麻酔剤、抗てんかん剤、局所麻酔剤、骨格筋弛緩剤、自律神経剤、鎮うん剤、利尿剤、血管収縮剤、呼吸促進剤、泌尿器官用剤、解毒剤、アルキル化剤、主として抗酸菌に作用する抗生物質製剤、その他薬効分類のうち薬価算定組織において市場が小さいと認められた薬効<br>
+（解説）市場規模の根拠として例えば前年度の薬事工業生産動態統計調査（厚生労働省医政局）を用いる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問66　対象薬効群は、同種効能を含む市場規模が全医薬品市場の0.5未満に該当する3桁薬効群と解釈してよいか。また、その場合投与形態別か。<br>
+（答）概ねそのとおりだが、詳細は以下の通り。その場合の投与形態別ではない。<br>
+＜市場性加算（Ⅱ）の対象となる薬効分類＞<br>
+全身麻酔剤、抗てんかん剤、局所麻酔剤、骨格筋弛緩剤、自律神経剤、鎮うん剤、利尿剤、血管収縮剤、呼吸促進剤、吸収器官用剤、解毒剤、習慣性中毒用剤、アルカリ化剤、主として抗酸菌に作用する抗生物質製剤、その他薬効分類のうち薬価算定組織において市場が小さいと認められた薬効<br>
+（解説）市場規模の根拠として例えば前年度の「薬事工業生産動態統計調査」（厚生労働省医政局）を用いる。<br>
+30.　小児加算</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問60-2（R8で削除）</span>
+    <span class="card-note">同一薬効群の新薬bが市場性加算(Ⅱ)対象となるかの詳細条件</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問60-2　組成Aの新薬aが市場性加算（II）の対象となったとき、aと同一薬効群に組成Bの新薬bが収載される場合、市場性加算（II）の対象となるか。<br>
+（答）イとロの条件を満たすならば市場性加算（II）の対象となる。ただし、比較薬が新薬aであり、かつ、新薬aの薬価が薬価改定を経ていない（市場性加算を付された薬価のまま）ならば、新薬bは市場性加算の対象としない。<br>
+（解説）イについて、aとbが薬理作用機序において、「別に定める薬効」に該当していることを確認したい。ロについて、比較薬が新薬aであり、かつ、当該薬価が薬価改定を経ていない（市場性加算を付された薬価のまま）場合は、比較薬の薬価は市場性加算分をすでに含んでおり、この価格にさらに市場性加算を上乗せすることは新薬aとの公平性を欠くこととなるためである。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問60-3（R8で削除）</span>
+    <span class="card-note">比較薬が市場実勢価格改定を経ている場合の加算適用</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問60-3　比較薬が市場性加算（I）、市場性加算（II）、小児加算又は特定用途加算の適用を受けていても市場実勢価格に基づく薬価の改定を経ている場合、新薬が各加算の要件を満たしていれば、加算適用は可能と考えて良いか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問60-4（R8で削除）</span>
+    <span class="card-note">比較薬が原価計算方式の場合の市場性加算</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問60-4　新薬が市場性加算（I）又は市場性加算（II）の要件を満たしている場合であって、比較薬が原価計算方式により算定された品目である場合、加算適用の取扱いはどうなるのか。<br>
+（答）比較薬が市場実勢価格に基づく薬価の改定を経ている場合であれば、新薬は市場性加算の適用対象と成り得る。<br>
+<br>
+30.　小児加算</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="30_小児加算">
+  <div class="section-header">
+    <h2>30.小児加算</h2>
+    <div class="section-desc">小児加算の要件・希少疾病用医薬品の定義</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問67（新設）</span>
+    <span class="card-note">「効能が小児に係るもののみである希少疾病用医薬品」の定義・判断基準</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問67　「対象となる疾病又は負傷に係る効能又は効果が小児に係るもののみである希少疾病用医薬品」とは「当該効能又は効果」又は「当該効能又は効果に係る用法及び用量」に小児のみに用いることが記載されている品目を指すという理解でよいか。<br>
+（答）例えば、希少疾病用医薬品の指定に係る「効能又は効果」又は「効能又は効果に係る用法及び用量」が小児のみとなっている品目など、「効能又は効果」等の記載から、専ら小児のみに用いることが判断される品目が対象となる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問61 → R8 問68</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問61　小児と成人の用量が区別されていないために、効能効果・用法用量に小児が明示されていないが、小児を対象に臨床試験が実施され、小児に使用されることが添付文書上でも明確な場合は、小児加算の対象となると考えてよいか。<br>
+（答）そのとおり。<br>
+<br>
+32.　迅速導入加算</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問68　小児と成人の用量が区別されていないために、効能効果・用法用量に小児が明示されていないが、小児を対象に臨床試験が実施され、小児に使用されることが添付文書上でも明確な場合は、小児加算の対象となると考えてよいか。<br>
+（答）そのとおり。<br>
+32.　迅速導入加算</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="32_迅速導入加算">
+  <div class="section-header">
+    <h2>32.迅速導入加算</h2>
+    <div class="section-desc">迅速導入加算・ドラッグ・ラグ/ロス解消</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問62 → R8 問69</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問62　医薬品医療機器等法第14条第10項の規定に基づき優先審査の対象となった品目とあるが、希少疾病用医薬品に指定されたものの優先審査に該当しないと最終的に判断された品目は迅速導入加算の対象とならないのか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問69　医薬品医療機器等法第14条第10項の規定に基づき優先審査の対象となった品目とあるが、希少疾病用医薬品に指定されたものの優先審査に該当しないと最終的に判断された品目は迅速導入加算の対象とならないのか。<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問62-2 → R8 問69-2</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問62-2　要件イの「日本以外の国」は、具体的にどの国を指すのか。<br>
+（答）医薬品規制調和国際会議（ICH）のメンバーのうち、創設規制当局メンバー、常任規制当局メンバー及び規制当局メンバーによる規制を受ける国であること。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問69-2　要件イの「日本以外の国」は、具体的にどの国を指すのか。<br>
+（答）医薬品規制調和国際会議（ICH）のメンバーのうち、創設規制当局メンバー、常任規制当局メンバー及び規制当局メンバーによる規制を受ける国であること。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問62-3 → R8 問69-3</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問62-3　「欧州」とは、具体的にどの国を指すのか。<br>
+（答）医薬品規制調和国際会議（ICH）における創設規制当局メンバー、常任規制当局メンバー及び規制当局メンバーによる規制を受ける国のうち、欧州に所在する国であること。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問69-3　「欧州」とは、具体的にどの国を指すのか。<br>
+（答）医薬品規制調和国際会議（ICH）における創設規制当局メンバー、常任規制当局メンバー及び規制当局メンバーによる規制を受ける国のうち、欧州に所在する国であること。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問62-4 → R8 問69-4</span>
+    <span class="card-note">R8版がドラッグ・ラグ/ロスの解消目的の説明を詳細化</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問62-4　迅速導入加算の要件イにおいて、「日本以外の国より先に臨床試験を実施して開発された品目」とあるが、日本以外の国において臨床試験を開始する前でも加算の対象となるか。<br>
+（答）そのとおり。なお、本加算については、ドラッグ・ラグ／ドラッグ・ロスの解消に向け、日本に迅速に導入されたものを評価するものであることから、外国において臨床試験が開始されていない段階であっても、国際的な開発計画があり、先行して日本で承認を受けた品目であれば加算の対象となりうるが、その経緯や今後の開発計画の進捗状況等を踏まえ、個別に判断される。<br>
+<br>
+34.　外国平均価格調整</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問69-4　迅速導入加算の要件イにおいて、「日本以外の国より先に臨床試験を実施して開発された品目」とあるが、日本以外の国において臨床試験を開始する前でも加算の対象となるか。<br>
+（答）そのとおり。なお、本加算については、ドラッグ・ラグ／ドラッグ・ロスの解消に向け、日本に迅速に導入された品目を評価するものであることから、外国において臨床試験が開始されていない段階であっても、国際的な開発計画があり、先行して日本で承認を受けた品目であれば加算の対象となりうるが、その経緯や今後の開発計画の進捗状況等を踏まえ、個別に判断される。<br>
+34.　外国平均価格調整</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="34_外国平均価格調整">
+  <div class="section-header">
+    <h2>34.外国平均価格調整</h2>
+    <div class="section-desc">外国平均価格調整（各国価格参照・後発品の取扱い）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問63 → R8 問70</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問63　外国に別規格しかない場合の外国平均価格調整対象品目はどうなるのか。<br>
+（答）原則、同一規格品のみを調整対象とする。ただし、4ヶ国のいずれにも同一規格品がない場合は日本での新規収載品よりも小規格で高薬価の場合、あるいは大規格で低薬価の場合は調整対象とする。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問70　外国に別規格しかない場合の外国価格平均調整対象品目はどうなるのか。<br>
+（答）原則、同一規格品のみを対象とする。ただし、4ヶ国のいずれにも同一規格品がない場合は日本での新規収載品よりも小規格で高薬価の場合、あるいは大規格で低薬価の場合は調整対象とする。<br>
+（例）新規収載品　10mg錠（薬定値100.00円）、20mg錠（同180.00円）について<br>
+外国価格が以下のとき、10mgと20mgの外国価格平均は？<br>
+米　10mg（150.00円）、20mg（170.00円）<br>
+英　5mg（190.00円：小規格で高薬価）<br>
+独　10mg（90.00円）<br>
+仏　10mg（60.00円）、30mg（80.00円：大規格で低薬価）<br>
+（答）外国に同一規格品があるので、それらのみで平均<br>
+10mg平均　→　（150（米10mg）+90（独10mg）+60（仏10mg））/ 3 ＝ 100<br>
+20mg平均　→　170（米20mg）<br>
+ただし、適応などが大幅に異なる理由により使用実態が類似していない場合には調整対象から外す。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問64 → R8 問71</span>
+    <span class="card-note">R8版は「（参考 令和8年3月現在）」として各国価格リストのURL（ASP、NADAC等）を追記</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問64　外国価格はいつの価格リスト、為替レートを使うか。<br>
+（答）薬価基準収載希望書提出期限の日を基準とし、その月の1日時点において入手可能な主要4ヶ国（米英独仏）における価格リストを用いる。価格リストは、ASP、NADAC、MIMS、Rote Liste、VIDALを用いる。為替レートについては、薬価基準収載希望書提出期限の日を基準として、その月の1日時点における最新一年間の平均レートを用いることとする。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問71　外国価格はいつの価格リスト、為替レートを使用するか。<br>
+（答）薬価基準収載希望書提出期限の日を基準とし、その月の1日時点において入手可能な主要4ヶ国（米英独仏）における価格リストを用いる。価格リストは、ASP、NADAC、MIMS、Rote Liste（独における価格調査後の価格）、VIDALを用いる。為替レートについては、薬価基準収載希望書提出期限の日を基準として、その月の1日時点における最新一年間の平均レートを用いることとする。<br>
+（参考 令和8年3月現在）<br>
+・ASP<br>
+https://www.cms.gov/medicare/medicare-fee-for-service-part-b-drugs/mcrpartbdrugsavgsalesprice<br>
+・NADAC<br>
+https://www.medicaid.gov/medicaid/prescription-drugs/pharmacy-pricing/index.html</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問65〜71 → R8 問72〜78</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（65〜71 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（72〜78 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問72〜77 → R8 問79〜84</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（72〜77 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（79〜84 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問76 → R8 問83</span>
+    <span class="card-note">R6「後発品しか存在しない場合」→R8「後発品として薬価収載品（もしくは薬価収載がない品）が存在する場合」に条件拡充</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問76　組成及び剤形区分が同一である医薬品であって、規格及び使用実態が当該新規収載品と類似している外国の薬剤が、当該国において後発品しか存在しない場合には、当該国における価格は外国価格として用いないこととしてよいか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問83　組成及び剤形区分が同一である医薬品であって、規格及び使用実態が当該新規収載品と類似している外国の薬剤が、当該国において後発品しか存在しない場合には、当該国における価格は外国価格として用いないこととしてよいか。<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="35_規格間調整">
+  <div class="section-header">
+    <h2>35.規格間調整</h2>
+    <div class="section-desc">規格間調整の算定順序</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問78 → R8 問85</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問78　次の場合、規格間比対象薬はどれを採用するか。<br>
+A社が新規収載品として10mg錠（汎用）を出す場合（自社規格追加）。<br>
+<br>
+| 年間販売量 | 規格 | A社 | B社 |<br>
+|---|---|---|---|<br>
+| 第3位 | 1mg錠 | A1（社内2位） | B1（社内2位） |<br>
+| 準汎用 | 5mg錠 | A5（社内1位） | － |<br>
+| 汎用 | 10mg錠 | － | B10（社内1位） |<br>
+<br>
+本成分の（同一投与形態内）総販売量はA社＜B社<br>
+<br>
+（答）まず、最類似薬は『A5』（自社の既収載品のうち年間販売量が最も多い）。<br>
+定義「35 規格間調整」により、組成、剤形区分及び製造販売業者が当該非汎用新規収載品（このケースでは10mg錠は汎用新規収載品だが）と同一の最類似薬がある場合<br>
+→最類似薬の薬価及び有効成分の含有量の関係を用いるので、ベースになるのは『A5』。<br>
+次に規格間比対象薬だが、「類似薬」の規格間比を用い（新薬2(2)②、後発品2(1)）、別表4にあるように、<br>
+①　汎用規格の類似薬中、年間販売量が最も多い既収載品の薬価→『B10』<br>
+②　当該既収載品と別の規格の類似薬（組成、剤形区分及び製造販売業者等が同一のものに限る＝「B社の別規格品」）のうち、年間販売量が2番目のもの→『B1』<br>
+したがって、『B10』と『B1』の規格間比を用いる。（『A5』と『A1』ではない。）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問85　次の場合、規格間比対象薬はどれを採用するか。<br>
+A社が新規収載薬として10mg錠を出す場合（自社規格追加）。<br>
+年間販売量<br>
+規格<br>
+A社<br>
+B社<br>
+第3位<br>
+１mg錠<br>
+A２（社内2位）<br>
+B２（社内2位）<br>
+準汎用<br>
+５mg錠<br>
+A５（社内1位）<br>
+—<br>
+汎用<br>
+１０mg錠<br>
+—<br>
+B10（社内1位）<br>
+本成分の（同一投与形態内）総販売量はA社とB社<br>
+（答）まず、最類似薬は『A5』（自社の既収載品のうち年間販売量が最も多い）。<br>
+定義「35規格間調整ロ」により、組成、剤形区分及び製造販売業者が当該非汎用新規収載品（このケースでは10mg錠は汎用新規収載品だが）と同一の最類似薬がある場合<br>
+→最類似薬の薬価及び有効成分の含有量の関係を用いるので、ベースになるのは『A5』。<br>
+次に規格間比対象薬だが、「類似薬」の規格間比を用い（新薬2(2)②、後発2(1)）別表4にあるように、<br>
+　汎用規格の類似薬中、年間販売量が最も多い既収載品の薬→『B10』<br>
+　当該収載品と別の規格の類似薬（組成、剤形区分及び製造販売業者等が同一のものに限る＝「B社の別規格品」）のうち、年間販売量が2番目のもの→『B1』<br>
+したがって、『B10』と『B1』の規格間比を用いる。（『A5』と『A1』ではない。）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問78-2 → R8 問85-2</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問78-2　非汎用新規収載品の薬価を求める関係式の「類似薬の規格間比がない場合は1とする」とは、例えば、汎用新規収載品10mg、非汎用新規収載品20mgで、類似薬の規格間比がない場合、非汎用新規収載品20mgの薬価は「10mgの一日薬価あわせ」とすることか。<br>
+（答）複数規格を持つ類似薬がない等の理由により、類似薬の規格間比がない場合には、非汎用規格の薬価は汎用規格の一日薬価あわせ（規格間比＝1）となる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問85-2　非汎用新規収載品の薬価を求める関係式の「類似薬の規格間比がない場合は1とする」とは、例えば、汎用新規収載品10mg、非汎用新規収載品20mgで、類似薬の規格間比がない場合、非汎用新規収載品20mgの薬価は「10mgの一日薬価合わせ」とすることか。<br>
+（答）複数規格を持つ類似薬がない等の理由により、類似薬の規格間比がない場合には、非汎用規格の薬価は汎用規格の一日薬価あわせ（規格間比＝1）となる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問78-3〜78-4 → R8 問85-3〜85-4</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（78-3〜78-4 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（85-3〜85-4 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問78-5 → R8 問85-5</span>
+    <span class="card-note">R8版が「汎用度の高い順に算定する」という具体的な算定順序例を追記</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問78-5　汎用が低含量規格で、非汎用規格として二種類、すなわち通常最大用量の範囲内の準汎用である高含量規格と、通常最大用量を超える用量に対応する規格の双方が存在する場合は、それら非汎用規格の薬価はどのように算定するのか。<br>
+（答）規格間の薬価のバランスが維持されるよう、汎用度の高い順に算定することもありうる。<br>
+例えば、問のケースの場合、汎用である低含量規格の薬価を用いて規格間調整によって通常最大用量の範囲内の高含量規格を算定し、次に高含量規格の薬価を用いて規格間調整（規格間比の上限は0.5850）によって通常最大用量を超える用量に対応する規格を算定する方法が考えられる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問85-5　汎用が低含量規格で、非汎用規格として二種類、すなわち通常最大用量の範囲内の準汎用である高含量規格と、通常最大用量を超える用量に対応する規格の双方が存在する場合は、それら非汎用規格の薬価はどのように算定するのか。<br>
+（答）規格間の薬価のバランスが維持されるよう、汎用度の高い順に算定することもありうる。例えば、問のケースの場合、汎用である低含量規格の薬価を用いて規格間調整によって通常最大用量の範囲内の高含量規格を算定し、次に高含量規格の薬価を用いて規格間調整（規格間比の上限は0.5850）によって通常最大用量を超える用量に対応する規格を算定する方法が考えられる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問78-6 → R8 問85-6</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問78-6　一物複数名称品であって規格間比が銘柄で異なる場合、規格間調整に用いる際の規格間比の算出はどのように行うのか。<br>
+（答）それぞれの規格について年間販売量で加重平均した額を算出し、その額を用いた規格間比を算出する。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問85-6　一物複数名称品であって規格間比が銘柄で異なる場合、規格間調整に用いる際の規格間比の算出はどのように行うのか。<br>
+（答）それぞれの規格について年間販売量で加重平均した額を算出し、その額を用いた規格間比を算出する。<br>
+第２章　新規収載品の薬価算定<br>
+第１部　新薬の薬価算定<br>
+第１節　類似薬がある新薬の場合<br>
+1　新薬が補正加算の対象となる場合</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="新薬算定補正加算対象">
+  <div class="section-header">
+    <h2>新薬算定補正加算対象</h2>
+    <div class="section-desc">新薬算定における補正加算対象</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問79 → R8 問86</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問79　イの「その他の理由」とは具体的には何か。<br>
+（答）例えば、共同開発ではないものの、承認取得者が別会社に対して製造のライセンスを供与した場合が考えられる。<br>
+<br>
+2　新薬が補正加算の対象にならない場合</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問86　イの「その他の理由」とは具体的には何か。<br>
+（答）例えば、共同開発ではないものの、承認取得者が別会社に対して製造のライセンスを供与した場合が考えられる。<br>
+2　新薬が補正加算の対象にならない場合</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="補正加算非対象の場合">
+  <div class="section-header">
+    <h2>補正加算非対象の場合</h2>
+    <div class="section-desc">補正加算が対象外の場合</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問80〜81 → R8 問87〜88</span>
+    <span class="card-note">括弧番号参照箇所がR8で変更（(1)→(2)など）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（80〜81 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">（87〜88 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="新薬算定最類似薬">
+  <div class="section-header">
+    <h2>新薬算定最類似薬</h2>
+    <div class="section-desc">新薬算定における最類似薬</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問82〜84 → R8 問89〜91</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（82〜84 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（89〜91 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="新規後発品">
+  <div class="section-header">
+    <h2>新規後発品</h2>
+    <div class="section-desc">新規後発品の算定（品目数カウント・名称変更）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問85 → R8 問92</span>
+    <span class="card-note">R6「銘柄数が7を超える場合」→R8「品目数が7を超える場合」（「銘柄」→「品目」に用語変更）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問85　1イ「銘柄数が7を超える場合」及びロ「銘柄数が10を超える場合」の判断は薬価収載希望書提出時点に行うのか。<br>
+（答）薬価収載希望書の提出期限日に判断する。<br>
+（解説）従来どおり。薬価収載希望書提出を締め切った時点で7銘柄又は10銘柄を超えていれば、その後に取り下げがあり収載時に7銘柄又は10銘柄を超えていなくとも7銘柄又は10銘柄を超えた場合の算定とする。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問92　1イ「品目数が7を超える場合」及びロ「品目数が10を超える場合」の判断は薬価収載希望書提出時点に行うのか。<br>
+（答）薬価収載希望書の提出期限日に判断する。<br>
+（解説）<br>
+従来どおり。薬価収載希望書提出を締め切った時点で7品目又は10品目を超えていれば、その後に取り下げがあり収載時に7品目又は10品目を超えていなくとも7品目又は10品目を超えた場合の算定とする。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問92-2（新設）</span>
+    <span class="card-note">「先発品と同一の後発品」の品目数カウント方法（新問）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問92-2　「組成、剤形及び製法が新薬として薬価収載された既収載品と同一の後発品（令和8年10月以降に薬価収載されたものに限る。以下「先発品と同一の後発品」という。）を除く。」の品目数が7を超える場合は、100分の40を乗じて得た額を当該新規後発品の薬価とする。」との記載がありますが、製造販売業者、剤形区分が同一（錠とOD錠等）である品目は、これまで通り1品目とカウントするとの理解でよいか。<br>
+の品目数が7を超える場合は、100分の40を乗じて得た額を当該新規後発品の薬価とする。」との記載がありますが、製造販売業者、剤形区分が同一（錠とOD錠等）である品目は、これまで通り1品目とカウントするとの理解でよいか。<br>
+（答）これまで通り、組成、剤形区分及び規格が同一の品目は1品目とカウントする。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問85-2 → R8 問92-3</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問85-2　後発品においても、有用性加算（II）が適用される場合もあると通知上は示されているが、有用性加算（II）の根拠となる資料は、承認申請時の添付資料でなければならないか。<br>
+（後発品では、臨床に関するデータは添付資料とされておらず、通常同等性以外の治験は実施されない。）<br>
+（答）必ずしも承認申請時の添付資料である必要はないが、科学的・客観的な評価に耐えうる資料であること。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問92-3　後発品においても、有用性加算（Ⅱ）が適用される場合もあると通知上は示されているが、有用性加算（Ⅱ）の根拠となる資料は、承認申請時の添付資料でなければならないか。（後発品では、臨床に関するデータは添付資料とされておらず、通常同等性以外の治験は実施されない）<br>
+（答）必ずしも承認申請時の添付資料である必要はないが、科学的・客観的な評価に耐えうる資料であること。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問85-3 → R8 問92-4</span>
+    <span class="card-note">R6「新薬創出等加算」→R8「革新的新薬薬価維持制度」名称変更</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問85-3　規格間比を算出する際、最類似薬が新薬創出等加算を受けている場合は、最類似薬の汎用規格及び準汎用規格の薬価から各々当該加算の累積額を控除した額を薬価とみなすことでよいか。<br>
+（答）規格間比の算出に当たっては、新薬創出等加算分の控除はせず、現行薬価を用いる。<br>
+<br>
+第3部　新規収載品の薬価算定の特例<br>
+1　キット製品である新規収載品の薬価算定</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問92-4　規格間比を算出する際、最類似薬が革新的新薬薬価維持制度の適用を受けている場合は、最類似薬の汎用規格及び準汎用規格の薬価から各々当該制度の累積額を控除した額を薬価とみなすことでよいか。<br>
+（答）規格間比の算出に当たっては、革新的新薬薬価維持制度の累積額の控除はせず、現行薬価を用いる。<br>
+第3部　新規収載品の薬価算定の特例<br>
+1　キット製品である新規収載品の薬価算定</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="キット製品特例">
+  <div class="section-header">
+    <h2>キット製品特例</h2>
+    <div class="section-desc">キット製品の特例算定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問86〜91 → R8 問93〜98</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（86〜91 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（93〜98 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="類似処方配合剤_新医療用配合剤">
+  <div class="section-header">
+    <h2>類似処方配合剤・新医療用配合剤</h2>
+    <div class="section-desc">類似処方配合剤・新医療用配合剤</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問92〜93 → R8 問99〜100</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（92〜93 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（99〜100 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第1節_市場実勢価格">
+  <div class="section-header">
+    <h2>第1節 市場実勢価格</h2>
+    <div class="section-desc">第1節 市場実勢価格改定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問94〜95 → R8 問101〜102</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（94〜95 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（101〜102 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第2節_比較薬の取扱い">
+  <div class="section-header">
+    <h2>第2節 比較薬の取扱い</h2>
+    <div class="section-desc">第2節 比較薬の取扱い（革新的新薬薬価維持制度名称変更）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問96 → R8 問103</span>
+    <span class="card-note">R6「新薬創出等加算の累積額」→R8「革新的新薬薬価維持制度の累積額」名称変更</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問96　比較薬の新薬創出等加算の累積額に相当する額及び本規定により比較薬が控除すべき額に相当する額は、どのように算出するか。<br>
+（答）比較薬の新薬創出等加算の累積額に相当する額は、比較薬が、算定対象の新薬の算定時点までに新薬創出等加算を受けた各年度における平均的な新薬創出等加算率の合計を基に算出する。また、本規定により比較薬が控除すべき額に相当する額は、比較薬が本節に規定する品目であった場合に、当該比較薬の薬価算定の際の比較薬が、当該比較薬の算定時点までに新薬創出等加算を受けた各年度における平均的な新薬創出等加算率の合計を基に算出する。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問103　比較薬の革新的新薬薬価維持制度の累積額に相当する額及び本規定により比較薬が控除すべき額に相当する額は、どのように算出するのか。<br>
+（答）比較薬の革新的新薬薬価維持制度の累積額に相当する額は、比較薬が、算定対象の新薬の算定時点まで革新的新薬薬価維持制度の適用を受けた各年度における革新的新薬薬価維持制度の平均的な控除率の合計を基に算出する。また、本規定により比較薬が控除すべき額に相当する額は、比較薬が本節に規定する品目であった場合に、当該比較薬の薬価算定の際の比較薬が、当該比較薬の算定時点までに革新的新薬薬価維持制度の適用を受けた各年度における革新的新薬薬価維持制度の平均的な控除率の合計を基に算出する。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第2節">
+  <div class="section-header">
+    <h2>第2節</h2>
+    <div class="section-desc">第2節 比較薬の取扱い</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問96-2 → R8 問103-2</span>
+    <span class="card-note">同（名称変更）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問96-2　（ロ）の「本節に規定する品目」とは、具体的にはどのような品目か？<br>
+（答）第3章第2節の規定の対象となる、新薬創出等加算を受けたことのある既収載品（控除が行われたものを除く。）を比較薬として類似薬効比較方式（II）以外の方法で算定された品目であって新薬創出等加算の対象外である品目やこの品目（控除が行われたものを除く。）を比較薬として類似薬効比較方式（II）以外の方法で算定された品目であって新薬創出等加算の対象外である品目を指す。ただし、令和2年度薬価改定の前に収載された品目は本節の対象外であること。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問103-2　（ロ）の「本節に規定する品目」とは、具体的にはどのような品目か。<br>
+（答）第３章第３節の規定の対象となる、革新的新薬薬価維持制度の適用を受けたことのある既収載品（控除が行われたものを除く。）を比較薬として類似薬効比較方式（Ⅱ）以外の方法で算定された品目であって革新的新薬薬価維持制度の対象外である品目やこの品目（控除が行われたものを除く。）を比較薬として類似薬効比較方式（Ⅱ）以外の方法で算定された品目であって革新的新薬薬価維持制度の対象外である品目を指す。ただし、令和２年度薬価改定の前に収載された品目は本節の対象外であること。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問96-3 → R8 問103-3</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問96-3　例えば、組成Aのa錠10mgが本節の対象となり、遅れて同一組成であるa錠20mgが規格間調整で収載された場合、a錠20mgは本節の対象となるのか。<br>
+また、a錠20mgも本節の対象となる場合、a錠20mgにおける「薬価収載から4年を経過した後の最初の薬価改定」とは、どの時点を指すのか（a錠10mgの薬価収載から4年を経過した後の最初の薬価改定とするのか、a錠20mg自体の薬価収載から4年を経過した後の最初の薬価改定とするのか）。<br>
+（答）規格追加の場合は既存規格と同様に扱うこととし、上記例ではa錠20mgも、a錠10mgと同様に本節の対象となる。また、a錠20mgも、a錠10mgの薬価収載から4年を経過した後の最初の薬価改定の際に控除の対象になる。<br>
+<br>
+第3節　長期収載品の薬価の改定<br>
+1　後発品への置換えが進まない既収載品の薬価の改定</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問103-3　例えば、組成Aのa錠10mgが本節の対象となり、遅れて同一組成であるa錠20mgが規格間調整で収載された場合、a錠20mgは本節の対象となるのか。また、a錠20mgも本節の対象となる場合、a錠20mgにおける「薬価収載から4年を経過した後の最初の薬価改定」とは、どの時点を指すのか（a錠10mgの薬価収載から4年を経過した後の最初の薬価改定とするのか、a錠20mg自体の薬価収載から4年を経過した後の最初の薬価改定とするのか）。<br>
+また、a錠20mgも本節の対象となる場合、a錠20mgにおける「薬価収載から4年を経過した後の最初の薬価改定」とは、どの時点を指すのか（a錠10mgの薬価収載から4年を経過した後の最初の薬価改定とするのか、a錠20mg自体の薬価収載から4年を経過した後の最初の薬価改定とするのか）。<br>
+（答）規格追加の場合は既存規格と同様に扱うこととし、上記例ではa錠20mgも、a錠10mgと同様に本節の対象となる。また、a錠20mg も、a錠10mgの薬価収載から4年を経過した後の最初の薬価改定の際に控除の対象になる。<br>
+第4節　長期収載品の薬価の改定<br>
+1　後発品収載後5年を経過した長期収載品の後発品価格への引下げ</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第4節1_後発品収載後5年経過品">
+  <div class="section-header">
+    <h2>第4節1 後発品収載後5年経過品</h2>
+    <div class="section-desc">第4節1 後発品収載後5年経過品（G1品目）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問97〜98-4 → R8 問104〜105-4</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（97〜98-4 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（104〜105-4 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第4節1">
+  <div class="section-header">
+    <h2>第4節1</h2>
+    <div class="section-desc">第4節1 後発品収載後5年経過品</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問99（R8で削除）</span>
+    <span class="card-note">同一組成内で1品目でも後発品価格逆転があれば全品目対象外か（R8で削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問99　同一組成内に1品目でも後発品と価格逆転があれば全品目が対象外となるか。<br>
+（答）品目毎に特例の適用を検討するので、同一組成内でも、後発品と価格逆転する品目のみが対象外となりその他のものは対象となる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問100〜101 → R8 問106〜107</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（100〜101 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（106〜107 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第4節2_G2品目">
+  <div class="section-header">
+    <h2>第4節2 G2品目</h2>
+    <div class="section-desc">第4節2 G2品目（R8で廃止）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問102（R8で削除）</span>
+    <span class="card-note">G1品目がG2品目へ移行するか（【G2廃止】により削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問102　G1品目に該当した品目が、後発品置換え率が80％未満となった場合は、G2品目に移行するのか。<br>
+（答）G1品目に該当した品目が、後発品置換え率が80％未満となった場合でも、G2品目への移行はせず、G1品目のまま取り扱う。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問102-3（R8で削除）</span>
+    <span class="card-note">G2品目8年経過後G1移行の薬価設定方法（【G2廃止】により削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問102-3　例えば、G2品目に該当してから8年を経過した品目（前回改定時に後発品の加重平均値の1.9倍とされた品目）がG1品目に該当した場合、当該改定においては後発品価格の加重平均値の1.9倍とし、以降2年時：1.9倍、4年時：1.5倍、6年時：1倍と薬価を引下げていくとの理解でよいか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問102-4（R8で削除）</span>
+    <span class="card-note">G2品目の規格違い品の取扱い（【G2廃止】により削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問102-4　例えば、当該ルールの対象となる組成Aのa錠5mgがあって、規格違いのa錠10mgには後発品が収載されていない場合において、a錠10mgはどのように取り扱われるのか。<br>
+（答）同一剤形区分内において後発品置換え率を算出し、G1品目又はG2品目の判断を行うとともに、Cにおける区分の判断を行う。その上で、a錠10mgについては、G1品目であれば実勢価格による改定とし、G2品目であればCが適用されることとなる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問102-6（R8で削除）</span>
+    <span class="card-note">G1除外品→G2品目への移行（【G2廃止】により削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問102-6　先発品と後発品の効能又は効果が同一でないためG1品目から除外されるものは、G2品目となるのか。<br>
+（答）そのとおり。2（1）②の品目も同様。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第4節_前倒しG1">
+  <div class="section-header">
+    <h2>第4節 前倒しG1</h2>
+    <div class="section-desc">第4節 前倒しG1品目</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問102-5 → R8 問107-4</span>
+    <span class="card-note">R6「後発品収載後10年以内」→R8「後発品収載後5年以内」（長期収載品の要件変更）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問102-5　最初の後発品の新規収載後10年を経過してない長期収載品について、後発品置換え率が80％以上であり、次回の薬価改定では80％未満、次々回では80％以上となった場合は、次々回の改定の際に前倒しでG1品目になるのか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問107-4　最初の後発品の新規収載後5年を経過していない長期収載品について、後発品置換え率が80%以上であり、次回の薬価改定では80%未満、次々回では80%以上となった場合は、次々回の改定の際に前倒しでG1品目になるのか。<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第4節_前倒しG1撤退">
+  <div class="section-header">
+    <h2>第4節 前倒しG1撤退</h2>
+    <div class="section-desc">第4節 前倒しG1撤退スキーム</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問102-7 → R8 問107-5</span>
+    <span class="card-note">G2廃止に伴い文言変更</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問102-7　後発品収載後10年以内に前倒しのG1ルールが適用される場合、当該長期収載品はG1品目における撤退スキームの対象となるのか。対象となる場合、スキームに則り後発品企業に対して増産意向の確認を行うのか。また、その場合であっても一価格帯への集約は後発品収載後12年を経過した後の薬価改定であることは変わらないという理解でよいか。<br>
+（答）通常のG1品目と同様、G1品目に該当した場合は撤退の判断を行うこととなる。<br>
+なお、G1品目に係る後発品については、第3章第6節2のとおり最初の後発品の新規収載後12年を経過した後の薬価改定において同節に則って価格帯の集約が行われる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問107-5　後発品収載後5年以内に前倒しのG1ルールが適用される場合、当該長期収載品はG1品目における撤退スキームの対象となるのか。対象となる場合、スキームに則り後発品企業に対して増産意向の確認を行うのか。<br>
+（答）通常のG1品目と同様、G1品目に該当した場合は撤退の判断を行うこととなる。<br>
+第5節　再算定<br>
+1　市場拡大再算定（1）市場拡大再算定対象品<br>
+（1）市場拡大再算定対象品</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第4節">
+  <div class="section-header">
+    <h2>第4節</h2>
+    <div class="section-desc">第4節 G1品目の規格違い品</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問102-2 → R8 問107-2</span>
+    <span class="card-note">R6「G1又はG2品目」→R8「G1品目」（G2廃止）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問102-2　G1品目又はG2品目に該当した品目について、全ての後発品が薬価削除された後、再度後発品が収載された場合は、どうなるのか。<br>
+（答）後発品収載後10年は経過したものとして取り扱われるが、G1品目又はG2品目への該当としては、初めて該当したものとされ、後発品の価格の2.5倍から開始となる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問107-2　G1品目について、全ての後発品が薬価削除された後、再度後発品が収載された場合は、どうなるのか。<br>
+（答）後発品収載後10年は経過したものとして取り扱われるが、G1品目への該当としては、初めて該当したものとされ、後発品の価格の2.5倍から開始となる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問107-3（新設）</span>
+    <span class="card-note">G1品目の規格違い品（後発品なし）の取扱い（新問）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問107-3　例えば、当該ルールの対象となる組成Aのa錠5mgがあって、規格違いのa錠10mgには後発品が収載されていない場合において、a錠10mgはG1の対象外となるとの理解でよいか。<br>
+（答）a錠10mgは「組成及び剤形区分が同一の類似薬」が収載されていることから、G1品目に該当し、G1適用前の価格に100分の98を乗じて得た額に改定される。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節1_市場拡大再算定">
+  <div class="section-header">
+    <h2>第5節1 市場拡大再算定</h2>
+    <div class="section-desc">第5節1 市場拡大再算定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問103 → R8 問108</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問103　イ（ロ）「原価計算方式以外の方式」とは「類似薬効比較方式」か。<br>
+（答）類似薬効比較方式（I）、（II）のほか、組成、剤形区分及び製造販売業者等が新薬と同一の新薬算定最類似薬がある場合の算定方法（規格追加等の算定）、キット製品に係る算定方法を含む。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問108　イ（ロ）「原価計算方式以外の方式」とは「類似薬効比較方式」か。<br>
+（答）類似薬効比較方式（Ⅰ）、（Ⅱ）のほか、組成、剤形区分及び製造販売業者等が新薬と同一の新薬算定最類似薬がある場合の算定方法（規格追加等の算定）、キット製品に係る算定方法を含む。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問104 → R8 問109</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問104　対象となる要件は、平成7年中医協建議にあるとおり「収載時に選定された比較対照薬との類似性が損なわれた場合」でよろしいか。また、その内容は、次の平成7年12月26日医療課長通知どおりか。<br>
+①　準公的な使用基準（学会ガイドラインなど）が変更された場合<br>
+②　収載当初、主として重症、中等症の患者に使用されることを想定した医薬品が軽症患者まで拡大された場合<br>
+③　算定時想定した使用対象患者、使用方法、使用量等が実態として変わった場合<br>
+④　薬事法の用法用量、効能効果が変更し、その市場が拡大した場合<br>
+（答）イ（ロ）のとおり、薬価収載後に当該既収載品の使用方法の変化、適用対象患者の変化その他の変化により、当該既収載品の使用実態が著しく変化した場合を要件としており、その具体的な例として①～④が想定される。なお、これらの要件に該当すれば、比較対照薬の選定された際の使用実態等との類似性は損なわれることになる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問109　対象となる要件は、平成7年中医協建議にあるとおり「収載時に選定された比較対照薬との類似性が損なわれた場合」でよろしいか。また、その内容は、次の平成7年12月26日医療課長通知どおりか。<br>
+①　準公的な使用基準（学会ガイドラインなど）が変更された場合<br>
+②　収載当初、主として重症、中等症の患者に使用されることを想定した医薬品が軽症患者まで拡大された場合<br>
+③　算定時想定した使用対象患者、使用方法、使用量等が実態として変わった場合<br>
+　薬事法の用法用量、効能効果が変更し、その市場が拡大した場合<br>
+（答）イ（ロ）のとおり、「薬価収載後に当該既収載品の使用方法の変化、適用対象患者の変化その他の変化により、当該既収載品の使用実態が著しく変化した場合」を要件としており、その具体的な例として①～④が考えられる。なお、これらの要件に該当すれば、比較対照薬の選定された際の使用実態等との類似性は損なわれることになる。ただし、原則、希少疾病、小児の効能の追加のみをもって、使用実態が著しく変化したとは判断されない。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節1_同一組成既収載品群">
+  <div class="section-header">
+    <h2>第5節1 同一組成既収載品群</h2>
+    <div class="section-desc">第5節1 同一組成既収載品群の定義</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問105 → R8 問111</span>
+    <span class="card-note">定義の表現変更（「既収載品並びに」→「既収載品区分に」）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問105　同一組成既収載品群には同一投与形態のものは含まれるが、成人専用錠剤と小児用シロップなど使用実態が異なるものは別扱いとすべきではないか。<br>
+（答）同一組成既収載品群は「既収載品並びに組成及び投与形態が当該既収載品と同一の全ての類似薬」をいうものであり、この類似薬選定は定義15（イ）～（ニ）の事項を総合的に勘案し薬価算定組織において個々のケースごとに判断される。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問111　同一組成既収載品群には同一投与形態のものは含まれるが、成人専用錠剤と小児用シロップなど使用実態が異なるものは別扱いとすべきではないか。<br>
+（答）同一組成既収載品群は「既収載品並びに組成及び投与形態が当該既収載品と同一の全ての類似薬」をいうものであり、この類似薬選定は定義15（イ）～（ニ）の事項を総合的に勘案し薬価算定組織において個々のケースごとに判断される。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節1">
+  <div class="section-header">
+    <h2>第5節1</h2>
+    <div class="section-desc">第5節1 市場拡大再算定（全般）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問106 → R8 問112</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問106　「同一組成既収載品群」には、いわゆる後発品やバイオ後続品は含むのか。<br>
+（答）そのとおり。<br>
+（解説）市場規模を勘案する場合に、新薬と後発品（バイオ後続品）が別市場を形成するとは考えがたい。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問112　「同一組成既収載品群」には、いわゆる後発品やバイオ後続品は含むのか。<br>
+（答）そのとおり。<br>
+（解説）市場規模を勘案する場合に、新薬と後発品（バイオ後続品）が別市場を形成するとは考えがたい。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問108（R8で削除）</span>
+    <span class="card-note">前回の薬価改定以前に再算定を受けた場合の基準年間販売額規定（削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問108　市場拡大再算定の基準年間販売額については、薬価算定基準には、「ただし、当該同一組成既収載品群が、前回の薬価改定以前に、市場拡大再算定（中略）又は３に規定する用法用量変化再算定（中略）の対象となっている場合には、直近に当該再算定を行った時点における同一組成既収載品群の年間販売額の合計額」とされている。この規定は、主として、売上げのピーク時周辺の場合を念頭に置いた規定だと思われるが、例えば、収載直後に類似品として再算定を受けた場合も含め、一律に適用されるのか。<br>
+（答）原則、問中の規定に従って適用されることになるが、再算定の時期や予想年間販売額の推移などを踏まえ、個別具体的に判断することもあり得る。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問109〜110 → R8 問114〜115</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（109〜110 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（114〜115 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節1_基準年間販売額">
+  <div class="section-header">
+    <h2>第5節1 基準年間販売額</h2>
+    <div class="section-desc">第5節1 基準年間販売額</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問107 → R8 問113</span>
+    <span class="card-note">「最初に収載された品目について予測された当該年における年間販売額」との説明が追加</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問107　（イ）「基準年間販売額」は薬価収載希望会社が薬価基準収載希望書に記載したピーク時の予想販売額とすることでよいか。<br>
+（答）薬価収載時に会社が当該年について予測した年間販売額をいう。同一組成既収載品が複数ある場合は、（それぞれが市場規模拡大の対象年について予測した）年間販売額の合計。したがって、必ずしもピーク時の予想販売額とは限らない。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問113　（イ）「基準年間販売額」は薬価収載希望会社が薬価基準収載希望書に記載したピーク時の予想販売額とすることでよいか。<br>
+（答）薬価収載時に申請企業が予測した当該年における年間販売額をいう。同一組成既収載品が複数ある場合は、最初に収載された品目について予測された当該年における年間販売額（最初に収載された品目に規格等が複数ある場合は、それらの年間販売額の合計）。したがって、必ずしもピーク時の予想販売額とは限らない。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節1_3_類似品">
+  <div class="section-header">
+    <h2>第5節1（3）類似品</h2>
+    <div class="section-desc">第5節1（3）類似品（R8で複数問を削除）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問111（R8で削除）</span>
+    <span class="card-note">成人錠剤が対象の場合、小児用シロップは再算定類似品に該当するか（削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問111　たとえば成人用錠剤が対象となった場合、同じ内用薬でも小児用シロップなど投与対象、用法用量が異なるものは再算定類似品に該当するのか。<br>
+（答）同一組成既収載品群は「既収載品並びに組成及び投与形態が当該既収載品と同一の全ての類似薬」をいうものであり、この類似薬選定はイ～ニの事項を総合的に勘案し薬価算定組織において個々のケースごとに判断される。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問112（R8で削除）</span>
+    <span class="card-note">同一組成でも投与形態が異なれば対象外か（削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問112　組成が同一でも投与形態が異なれば対象とはならないのか。<br>
+（答）そのとおり。薬理作用類似薬は類似薬のうち、（1）同一の効能又は効果を有するものであって、当該効能又は効果に係る薬理作用が類似していること、（2）投与形態が同一であること、の両方の要件を満たす既収載品である。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問113（R8で削除）</span>
+    <span class="card-note">特例拡大再算定対象品が連続再算定の類似品の場合（削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問113　特例拡大再算定対象品として改定を受けた品目が、当該改定の適用日の翌日から起算して4年を経過する日までの間に、第3章第4節4（3）の連続する「薬価改定の際の再算定」及び「薬価改定の際以外の再算定」の対象品目の類似品に該当し、更にこれらの再算定が同規定のただし書中のイに該当する場合、いずれの再算定についても類似品として取り扱わないこととなると解してよいか。<br>
+（答）そのとおり。<br>
+<br>
+別表6　4 補正加算が適用される場合における計算方法</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="別表6_補正加算">
+  <div class="section-header">
+    <h2>別表6 補正加算</h2>
+    <div class="section-desc">別表6 補正加算</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問114〜115 → R8 問116〜117</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（114〜115 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（116〜117 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節2_効能変化再算定">
+  <div class="section-header">
+    <h2>第5節2 効能変化再算定</h2>
+    <div class="section-desc">第5節2 効能変化再算定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問116 → R8 問118</span>
+    <span class="card-note">参照薬選択基準の表現変更（要確認：書き起こしエラーの可能性）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問116　効能変化再算定の特例における参照薬となる既収載品はどのように選択するのか。<br>
+（答）薬理作用を問わず、効能効果が同一又は類似しており、治療目的、診療ガイドラインにおける使用方法、安全性・有効性上の著しい差違の有無などからみて臨床上の位置づけが類似している既存薬（新薬として薬価収載されたものがあれば当該薬。）を薬価算定組織において総合的に判断する。なお、参照薬が複数ある場合はそれらの一日薬価の加重平均値を参照薬の一日薬価とし、合計の年間販売額を参照薬の年間販売額とする。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問118　効能変化再算定の特例における参照薬となる既収載品はどのように選択するのか。<br>
+（答）薬理作用を問わず、効能効果が同一又は類似しており、治療目的、診療ガイドラインにおける使用方法、安全性・有効性以上の著しい差異の有無などからみて臨床上の位置づけが類似している既存薬（新薬として薬価収載されたものがあれば当該薬。）を薬価算定組織において総合的に判断する。なお、参照薬が複数ある場合はそれらの一日薬価の加重平均値を参照薬の一日薬価とし、合計の年間販売額を参照薬の年間販売額とする。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節2">
+  <div class="section-header">
+    <h2>第5節2</h2>
+    <div class="section-desc">第5節2 効能変化再算定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問116-2 → R8 問118-2</span>
+    <span class="card-note">R6「類似薬との競合等」→R8「類似薬との観念等」（要確認：書き起こしエラーの可能性）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問116-2　効能変化再算定の特例の該当性の判断に際し、効能追加による患者数の拡大は何に基づいて推定するのか。<br>
+（答）原則として、追加された効能効果に係る対象患者数等の統計資料を参照して推定する。最適使用推進ガイドライン等で投与の対象外となる患者は含まない。この際、当該品目の市場への浸透、類似薬との競合等により、対象患者ではあるが、実際には当該品目を使用しない可能性のある患者の割合等は考慮せずに、対象となる患者の最大数を推定する。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問118-2　効能変化再算定の特例の該当性の判断に際し、効能追加による患者数の拡大は何に基づいて推定するのか。<br>
+（答）原則として、追加された効能効果に係る対象患者数等の統計資料を参照して推定する。最適使用推進ガイドライン等で投与の対象外となる患者は含まない。この際、当該品目の市場への浸透、類似薬との競合等により、対象患者ではあるが、実際には当該品目を使用しない可能性のある患者の割等は考慮せずに、対象となる患者の最大数を推定する。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問116-3〜116-4 → R8 問118-3〜118-4</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（116-3〜116-4 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（118-3〜118-4 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節3_用法用量変化再算定">
+  <div class="section-header">
+    <h2>第5節3 用法用量変化再算定</h2>
+    <div class="section-desc">第5節3 用法用量変化再算定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問117 → R8 問119</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問117　薬価算定基準には、主たる効能又は効果に係る効能変更等に伴い用法・用量に大幅な変更があったことで用法用量変化再算定の対象となる医薬品の類似品の取扱いについて、「用法及び用量の変更後に比較薬とした場合に限る」とあるが、比較薬の変更前の用法・用量に基づく一日薬価により薬価算定されたものは用法用量変化再算定の対象から除かれると解してよいか。<br>
+（答）そのとおり。<br>
+　ただし、比較薬の主たるもの以外の効能・効果に係る用法・用量に基づく一日薬価により算定されたものであっても、その効能・効果や用法・用量の類似性から、主たる効能・効果に係る一日薬価の変化に連動して、一日薬価が変化することが妥当と考えられる場合は、類似品として用法用量変化再算定の対象となる。<br>
+<br>
+（類似薬を対象から除く場合の例）<br>
+①医薬品Aは、当初、効能αを主たる効能・効果として承認された。その後、効能追加により効能βが主たる効能・効果となり、これに伴い、用法・用量が「大幅な変更」となった。<br>
+②上記①の後に、医薬品Bは効能αを主たる効能・効果として承認され、医薬品Aを比較薬として効能αの用法・用量に基づく一日薬価により薬価算定がされた（医薬品Bは効能βを有していない）。<br>
+③上記①、②の後の薬価改定において、医薬品Aは主たる効能・効果の変更に伴う用法用量変化再算定の対象となり、効能βの用法・用量に基づき薬価の再算定を受けた。一方、医薬品Bは、効能βの用法・用量に基づく一日薬価により薬価算定されたものではない。<br>
+⇒　類似品として用法用量変化再算定の適用は受けない。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問119　薬価算定基準には、主たる効能・効果に係る効能変更等に伴い用法・用量に大幅な変更があったことで用法用量変化再算定の対象となった医薬品の類似品の取扱いについて、「用法及び用量の変更後に比較薬とした場合に限る」とあるが、比較薬の変更前の用法・用量に基づく一日薬価により薬価算定されたものは用法用量変化再算定の対象から除かれると解してよいか。<br>
+（答）そのとおり。<br>
+ただし、比較薬の主たるもの以外の効能・効果に係る用法・用量に基づく一日薬価により算定されたものであっても、その効能・効果や用法・用量の類似性から、主たる効能・効果に係る一日薬価の変化に連動して、一日薬価が変化することが妥当と考えられる場合は、類似品として用法用量変化再算定の対象となる。<br>
+（類似薬を対象から除く場合の例）<br>
+医薬品Aは、当初、効能αを主たる効能・効果として承認された。その後、効能追加により効能βが主たる効能・効果となり、これに伴い、用法・用量が「大幅な変更」となった。<br>
+②上記①の後に、医薬品Bは効能αを主たる効能・効果として承認され、医薬品Aを比較薬として効能αの用法・用量に基づく一日薬価により薬価算定された（医薬品Bは効能βを有していない）。<br>
+上記①、②の後の薬価改定において、医薬品Aは主たる効能・効果の変更に伴う用法用量変化再算定の対象となり、効能βの用法・用量に基づく薬価で再算定を受けた。一方、医薬品Bは、効能βの用法・用量に基づく一日薬価により薬価算定されたものではない。<br>
+⇒　類似品として用法用量変化再算定の適用は受けない。<br>
+4　薬価改定の際以外の再算定<br>
+4　薬価改定の際以外の再算定</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節4_薬価改定の際以外の再算定">
+  <div class="section-header">
+    <h2>第5節4 薬価改定の際以外の再算定</h2>
+    <div class="section-desc">第5節4 薬価改定以外の再算定</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問118〜118-3 → R8 問120〜120-3</span>
+    <span class="card-note">ほぼ同じ（R8版は説明が詳細化）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（118〜118-3 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（120〜120-3 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第5節4">
+  <div class="section-header">
+    <h2>第5節4</h2>
+    <div class="section-desc">第5節4 薬価改定以外の再算定（NDB・新問追加）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問121（新設）</span>
+    <span class="card-note">NDBによる使用量把握期間（要件非該当になるまで）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問121　「薬価改定の際以外の再算定」における使用量の把握はNDB（レセプト情報・特定健診等情報データベース）にて行われているが、NDBにより使用量を把握する期間については、「平成30年度薬価制度の抜本改革の概要（厚生労働省保険局医療課）」に記載のとおり、2年間との理解でよいか。<br>
+（答）第５節４（1）のイ、ロに該当する既収載品については2年間、ハ、モに該当する既収載品については、当該品目が第５節１（1）ロの要件に非該当になるまでの期間、NDBにより使用量の把握が行われる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問122（新設）</span>
+    <span class="card-note">NDBデータの時点（中医協了承後の四半期以降）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問122　「市場拡大再算定対象品又は持続可能性特例価格調整対象品の薬理作用類似薬である既収載品」の使用量の把握はNDBにて行われているが、どの時点のNDBデータを基に使用量を把握するのか。例えば、1月中医協了承、4月再算定適用後、6月分のNDBデータから使用量を把握するとの理解でよいか。また、NDBにより使用量が把握される薬理作用類似薬は、対象品目の中医協で報告された薬理作用類似薬に限られる（後で追加されることはない）との理解でよいか。<br>
+収載品」の使用量の把握はNDBにて行われているが、どの時点のNDBデータを基に使用量を把握するのか。例えば、1月中医協了承、4月再算定適用後、6月分のNDBデータから使用量を把握するとの理解でよいか。また、NDBにより使用量が把握される薬理作用類似薬は、対象品目の各医で報告された薬理作用類似薬に限られる（後で追加されることはないとする）との理解でよいか。<br>
+（答）中医協了承後、直近の四半期再算定におけるNDBデータの把握時から使用量の把握を行う（例：１月中医協了承、３月分のNDBデータから使用量を把握）。また、NDBにより使用量の把握が行われる薬理作用類似薬は、対象品目の再算定等時点における薬理作用類似薬に限られる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-added">
+  <div class="card-header">
+    <span class="tag tag-added">追加</span>
+    <span class="card-nums">R8 問123（新設）</span>
+    <span class="card-note">市場拡大再算定対象品の薬理作用類似薬が再度対象となった場合の元の対象品の取扱い</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">R6版には該当問なし（新設問）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問123　「市場拡大再算定対象品又は持続可能性特例価格調整対象品の薬理作用類似薬である既収載品」が、「対象品の薬理作用類似薬である既収載品」として再算定の対象となった場合、元の市場拡大再算定対象品又は持続可能性特例価格調整対象品についても、「対象品の薬理作用類似薬である既収載品」として取り扱われるという理解でよいか。<br>
+（答）「市場拡大再算定対象品又は持続可能性特例価格調整対象品の薬理作用類似薬である既収載品」が、「対象品の薬理作用類似薬である既収載品」として再算定の対象となった場合、元の市場拡大再算定対象品又は持続可能性特例価格調整対象品は、「対象品の薬理作用類似薬である既収載品」としては取り扱われない。<br>
+第6節　条件・期限付承認を受けた再生医療等製品の特例<br>
+第6節　条件・期限付承認を受けた再生医療等製品の特例</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第6節_再生医療等製品">
+  <div class="section-header">
+    <h2>第6節 再生医療等製品</h2>
+    <div class="section-desc">第6節 再生医療等製品</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問119〜119-2 → R8 問124〜124-2</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（119〜119-2 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（124〜124-2 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第6節">
+  <div class="section-header">
+    <h2>第6節</h2>
+    <div class="section-desc">第6節 再生医療等製品</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問119-3 → R8 問124-3</span>
+    <span class="card-note">R6「薬事・食品衛生審議会」→R8「薬事審議会」（名称変更）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問119-3　薬価基準収載希望書を準用して申請を行う際、最新の状況を反映した記載内容とすることが良いか。<br>
+（答）そのとおり、薬事・食品衛生審議会審議日、承認年月日は、初回承認日に加え、医薬品医療機器等法第23条の26第5項に基づいて期限内に申請を行い承認を受けた際の審議日、承認年月日を記載すること。また、市場規模予測は新規収載時のものとし、申請時点が何年度目に相当するかを記載すること。<br>
+　なお、薬価算定用資料のうち、最類似薬の選定に係る資料等、補正加算に関わらないものは添付を省略して差し支えない。<br>
+<br>
+第6節　後発品等の価格帯</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問124-3　薬価基準収載希望書を準用して申請を行う際、最新の状況を反映した記載内容とすることが良いか。<br>
+（答）そのとおり。薬事審議会審議日、承認年月日は、初回承認日に加え、医薬品医療機器等法第23条の26第5項に基づいて期限内に申請を行い承認を受けた際の審議日、承認年月日を記載すること。また、市場規模予測は新規収載時のものとし、申請時点が何年度目に相当するかを記載すること。<br>
+なお、薬価算定用資料のうち、最類似薬の選定に係る資料等、補正加算に関わらないものは添付を省略して差し支えない。<br>
+第7節　後発品等の価格帯</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第7節_後発品価格帯">
+  <div class="section-header">
+    <h2>第7節 後発品価格帯</h2>
+    <div class="section-desc">第7節 後発品価格帯</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問120 → R8 問125</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問120　「100分の30を乗じて得た額を下回る算定額となる既収載品」について、価格帯が一つの場合は当該価格帯を統一名収載するとの理解でよいか。また、複数の価格帯が存在する場合は、最も低い価格帯を統一名収載するとの理解でよいか。<br>
+（答）原則として、そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問125　「100分の30を乗じて得た額を下回る算定額となる既収載品」について、価格帯が一つの場合は当該価格帯を統一名収載するとの理解でよいか。また、複数の価格帯が存在する場合は、最も低い価格帯を統一名収載するとの理解でよいか。<br>
+（答）原則として、そのとおり。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第7節">
+  <div class="section-header">
+    <h2>第7節</h2>
+    <div class="section-desc">第7節 後発品価格帯（G2廃止関連削除）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問121（R8で削除）</span>
+    <span class="card-note">G1・G2品目後発品の統一名収載（G2廃止のため削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問121　G1品目又はG2品目に係る後発品について、価格帯が一つの場合は当該価格帯を統一名収載するとの理解でよいか。また、複数の価格帯が存在する場合は、最も低い価格帯を統一名収載するとの理解でよいか。<br>
+（答）原則として、そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問122 → R8 問126</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問122　組成、剤形区分、規格及び製造販売業者が同一で、剤形が異なる場合において、価格帯が異なることもあるとの理解でよいか。<br>
+（答）薬価改定においては、そのとおり。例えば、普通錠とOD錠において価格帯が異なる場合もある。<br>
+<br>
+第7節　低薬価品の特例<br>
+1　基礎的医薬品</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問126　組成、剤形区分、規格及び製造販売業者が同一で、剤形が異なる場合において、価格帯が異なることもあるとの理解でよいか。<br>
+（答）薬価改定においては、そのとおり。例えば、普通錠とOD錠において価格帯が異なる場合もある。<br>
+第8節　低薬価品の特例<br>
+1　基礎的医薬品<br>
+第8節　低薬価品の特例<br>
+1　基礎的医薬品</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第8節1_基礎的医薬品">
+  <div class="section-header">
+    <h2>第8節1 基礎的医薬品</h2>
+    <div class="section-desc">第8節1 基礎的医薬品</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問123 → R8 問127</span>
+    <span class="card-note">参照節番号変更（「第9節」→「第10節」）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問123　「本規定適用前の額が薬価改定前の薬価を上回る場合」とは、第9節の既収載品の薬価改定時の加算や不採算品再算定により現行薬価を超えた場合を指すのか。<br>
+（答）そのとおり。<br>
+<br>
+2　不採算品再算定</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問127　「本規定適用前の額が薬価改定前の薬価を上回る場合」とは、第10節の既収載品の薬価改定時の加算や不採算品再算定により現行薬価を越えた場合を指すのか。<br>
+（答）そのとおり。<br>
+2　不採算品再算定<br>
+2　不採算品再算定</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第8節2_不採算品再算定">
+  <div class="section-header">
+    <h2>第8節2 不採算品再算定</h2>
+    <div class="section-desc">第8節2 不採算品再算定（条件緩和）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問124〜125 → R8 問128〜129</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（124〜125 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（128〜129 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問126 → R8 問130</span>
+    <span class="card-note">R6の①「薬価乖離率が一定率以内」がR8で削除（条件が緩和）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問126　前提条件として、①薬価乖離率が一定率以内であること、②学会等の継続供給要請があること、③代替薬がないこと、が挙げられると思うがどうか。<br>
+（答）いずれも「保険医療上の必要性が高い」ことの判断基準の要素として評価できるものと考える。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問130　前提条件として、①学会等の継続供給要請があること、②代替薬がないこと、が挙げられると思うがどうか。<br>
+（答）いずれも「保険医療上の必要性が高い」ことの判断基準の要素として評価できるものと考える。<br>
+第9節　革新的新薬薬価維持制度</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="節名称">
+  <div class="section-header">
+    <h2>節名称</h2>
+    <div class="section-desc">【制度名称変更】新薬創出等加算 → 革新的新薬薬価維持制度</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 第8節 → R8 第9節</span>
+    <span class="card-note">【制度名称変更】「新薬創出・適応外薬解消等促進加算（新薬創出等加算）」→「革新的新薬薬価維持制度」</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="not-in-era">（本文未確認）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">（本文未確認）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第9節">
+  <div class="section-header">
+    <h2>第9節</h2>
+    <div class="section-desc">第9節 革新的新薬薬価維持制度（旧：新薬創出等加算）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問127 → R8 問131</span>
+    <span class="card-note">要件番号が変更（ロの①〜⑩→①〜⑨）、名称変更</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問127　例えば、希少疾病用医薬品に指定された効能又は効果について承認を受けている組成Aのa錠10mgが薬価収載時に新薬創出等加算の対象となった場合、組成、効能効果が同一であって、遅れて収載されたa錠20mgやa顆粒10%も新薬創出等加算の対象となるとの理解でよいか。<br>
+（答）そのとおり。先行収載品の収載から長期間（概ね5年以上）経過した場合であっても、（1）対象品目ロの①、②、④～⑩のいずれかの要件を満たす場合は当該加算の対象となる。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問131　例えば、希少疾病用医薬品に指定された効能又は効果について承認を受けている組成Aのa錠10mgが薬価収載時に革新的新薬薬価維持制度の適用対象となった場合、組成、効能効果が同一であって、遅れて収載されたa錠20mgやa顆粒10%も革新的新薬薬価維持制度の適用対象となるとの理解でよいか。<br>
+（答）そのとおり。先行収載品から長期間（概ね５年以上）経過した場合であっても、１対象品目ロの①、②、④～⑨のいずれかの要件を満たす場合は当該制度の適用対象となる。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問127-2〜127-4 → R8 問131-2〜131-4</span>
+    <span class="card-note">ほぼ同じ（名称変更）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（127-2〜127-4 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（131-2〜131-4 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問127-5 → R8 問131-5</span>
+    <span class="card-note">ほぼ同じ（名称変更）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問127-5　例えば、組成Aのa錠10mgとaOD錠10mgが当該加算の適用となる場合、改定後薬価は同じであっても加算額は異なることもあるとの理解でよいか。<br>
+（答）各々の実勢価格をもって加算額を算出していることから、異なることもあり得る。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問131-5　例えば、組成Aのa錠10mgとaOD錠10mgが当該制度の適用となる場合、改定後薬価は同じであっても累積額は異なる場合もあるとの理解でよいか。<br>
+（答）各々の実勢価格をもって累積額を算出していることから、異なることもあり得る。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問127-6 → R8 問131-6</span>
+    <span class="card-note">条件「組成及び投与形態が異なるものに限る」→「組成又は投与形態が異なるものに限る」（and→or）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問127-6　（1）対象品目のロ⑤（ロ）に「薬価収載時に（イ）に該当する既収載品目数（組成及び投与形態が異なるものに限る。）が1以下であること」とある。例えば、以下のようなケースは（ロ）の既収載品目数としてカウントしないとの理解でよいか。<br>
+・（イ）に該当する錠剤と同一組成で規格の異なる錠剤が収載される場合<br>
+・（イ）に該当する錠剤と同一組成の顆粒剤が収載される場合<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問131-6　1対象品目のロ④（ロ）に「薬価収載の際、（イ）に該当する既収載品目数（組成又は投与形態が異なるものに限る。）が1以下であること」とある。例えば、以下のようなケースは（ロ）の既収載品目数としてカウントしないとの理解でよいか。<br>
+・（イ）に該当する錠剤と同一組成で規格の異なる錠剤が収載される場合<br>
+・（イ）に該当する錠剤と同一組成の顆粒剤が収載される場合<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問127-7（R8で削除）</span>
+    <span class="card-note">既収載品目数としてカウントするケース（削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問127-7　（1）対象品目のロ⑤（ロ）に「薬価収載時に（イ）に該当する既収載品目数（組成及び投与形態が異なるものに限る。）が1以下であること」とある。例えば、以下のようなケースは（ロ）の既収載品目数としてカウントするとの理解でよいか。<br>
+・（イ）に該当する内用薬を比較薬として算定された注射薬など、組成が同一で投与形態の異なる品目が収載される場合<br>
+・（イ）に該当する内用薬を比較薬として算定された内用薬で、組成が異なる品目が収載される場合<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問127-8 → R8 問131-7</span>
+    <span class="card-note">ほぼ同じ（名称変更）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問127-8　控除における「これまで受けた新薬創出等加算の累積額」とは、平成28年度薬価改定以前における新薬創出等加算の累積額を含むか。<br>
+（答）含む。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問131-7　控除における「革新的新薬薬価維持制度の累積額」とは、平成28年度薬価改定以前における新薬創出等加算の累積額を含むか。<br>
+（答）含む。（第４章３経過措置（2）参照）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問127-9〜127-12 → R8 問131-8〜131-11</span>
+    <span class="card-note">ほぼ同じ（名称変更）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（127-9〜127-12 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（131-8〜131-11 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問127-13（R8で削除）</span>
+    <span class="card-note">追加効能効果と同一の効能効果の薬理作用類似薬がない場合の新規作用機序医薬品相当（削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問127-13　追加された効能効果と同一の効能効果について承認を受けた薬理作用類似薬がない場合は、新規作用機序医薬品に相当すると認められる効能効果の追加といえるか。<br>
+（答）概ねそのとおり。ただし、効能効果の記載が全く同じではなくとも、ほぼ同じ効能・効果の薬理作用類似薬がある場合はこの限りでは無い。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問127-14（R8で削除）</span>
+    <span class="card-note">既存の効能と類似性が高いと認められる効能効果の具体例（削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問127-14　既存の効能と類似性が高いと認められる効能効果等はどのようなものか。<br>
+（答）既存の効能との類似性が高いと認められるものとしては、<br>
+・既存の効能効果の対象患者の限定を解除したもので、従前効能の対象患者拡大に相当し、開発リスクが低かったと考えられるもの<br>
+・期待する効能や治療目的・方針等が同様の類似疾患の追加（例：成長ホルモン製剤において、「成長ホルモン分泌不全性低身長」の既存効能に「成人成長ホルモン分泌不全症」の効能を追加する場合、鎮痛薬において鎮痛の対象部位を追加する場合など。）<br>
+等であって、薬価算定組織において類似性が高いことが認められたものを想定している。<br>
+　なお、薬理作用類似薬の効能効果の対象範囲内にある効能効果の追加は、追加された効能において新規作用機序医薬品に相当するとは解さない。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-deleted">
+  <div class="card-header">
+    <span class="tag tag-deleted">削除</span>
+    <span class="card-nums">R6 問127-15（R8で削除）</span>
+    <span class="card-note">別表10「新規作用機序医薬品の基準」の臨床試験要件（削除）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問127-15　薬価算定基準別表10「新規作用機序医薬品の革新性及び有用性に係る基準」に「1　新規作用機序により既存治療で効果不十分な疾患に有効性を示したものであること」とあるが、例えば、添付文書の効能・効果に「既存治療で効果不十分な」疾患と明示されている場合であっても、「当該疾患に対する標準療法で効果不十分又は不耐容の患者を含む臨床試験（当初の承認を目的として実施されたもので、効果不十分又は不耐容の患者の目標症例数が事前に設定された企業治験に限る。）において有効性が示されることなど」が求められると解してよいか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="not-in-era">R8版では削除</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問127-16〜127-20 → R8 問131-12〜131-16</span>
+    <span class="card-note">ほぼ同じ（名称変更）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（127-16〜127-20 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（131-12〜131-16 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第10節">
+  <div class="section-header">
+    <h2>第10節</h2>
+    <div class="section-desc">第10節 特定用途医薬品等</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問128 → R8 問132</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問128　対象となる既収載品は、例えば、平成30年度薬価改定であれば、平成27年11月から平成29年10月までに、小児又は希少疾病に係る効能又は効果もしくは用法及び用量が追加されたもの、真の臨床的有用性が直接的に検証されたことが公表されたものとの理解でよいか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問132　対象となる既収載品は、例えば、平成30年度薬価改定であれば、平成27年11月から平成29年10月までに、小児又は希少疾病に係る効能又は効果もしくは用法及び用量が追加されたもの、真の臨床的有用性が直接的に検証されたことが公表されたものとの理解でよいか。<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問129 → R8 問133</span>
+    <span class="card-note">参照節番号変更（「第8節」→「第9節」）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問129　薬価の改定方式について、「本規定の適用前の価格に」とされていることから、例えば、第3節2の「後発品収載10年を経過した長期収載品の後発品価格への引下げ」や第8節の「新薬創出・適応外薬解消等促進加算」が適用された品目においても、第1節にて算定された額ではなく、第8節までに算定された額に別表2から得られる補正加算率を乗じて得た額を用いて算定するのか。<br>
+（答）そのとおり。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問133　薬価の改定方式について、「本規定の適用前の価格に」とされていることから、例えば、第４節２の「後発品収載後5年を経過した長期収載品の後発品価格への引き下げ」や第９節の「革新的新薬薬価維持制度」が適用された品目においても、第１節で算定された額ではなく、第９節までに算定された額に別表2から得られる補正加算率を乗じて得た額を用いて算定するのか。<br>
+（答）そのとおり。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第10節_希少疾病">
+  <div class="section-header">
+    <h2>第10節 希少疾病</h2>
+    <div class="section-desc">第10節 希少疾病用医薬品</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問130 → R8 問134</span>
+    <span class="card-note">R8版の答えが「薬事法」表記に変更（R6は「薬機法」）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問130　希少疾病に係る効能効果等を追加した場合、収載後の加算の該当性はどのように評価されるのか。<br>
+（答）原則として、薬機法に基づく希少疾病用医薬品に指定されている効能効果又は用法用量の一部変更承認を取得し、薬機法に基づく再審査の対象とされているものを加算の対象とする。<br>
+　ただし、本加算は、企業における希少疾病への効能拡大等のインセンティブとなるよう導入されたという趣旨にかんがみ、以下の品目は、加算の対象外としている。<br>
+①　自ら臨床試験を実施せずに、既存の文献等に基づき、公知申請として承認を取得した場合や医師主導治験の結果に基づき承認を取得した場合など、開発に当たっての当該企業の負担が相当程度低いと考えられるもの<br>
+②　既に希少疾病用医薬品として承認を取得した効果と類似の効能を追加したり、当該既存効能に係る対象患者の限定を解除したりしたものであり、新たな希少疾病用医薬品としての開発というよりも、従前効能の対象患者拡大に相当し、開発リスクが低かったと考えられるもの<br>
+③　薬価算定時の比較薬が、今回対象となる希少疾病に関して市場性加算（Ⅰ）の適用を受けている場合など、申請品目の薬価収載時に、既に当該希少疾病に関する評価を考慮した算定が行われていると考えられるもの</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問134　希少疾病に係る効能効果等を追加した場合、収載後の加算の該当性はどのように評価されるのか。<br>
+（答）原則として、薬機法に基づく希少疾病用医薬品に指定されている効能効果又は用法用量の一部変更承認を取得し、薬機法に基づく再審査の対象とされているものを加算の対象とする。ただし、本加算は、企業における希少疾病への効能拡大等のインセンティブとなるよう導入されたという趣旨にかんがみ、以下の品目は加算の対象外としている。<br>
+①　自ら臨床試験を実施せずに、既存の文献等に基づき、公知申請として承認を取得した場合や医師主導治験の結果に基づき承認を取得した場合など、開発に当たっての当該企業の負担が相当程度低いと考えられるもの<br>
+　既に稀少疾病用医薬品として承認を取得した効能と類似の効能を追加したり、当該既存効能に係る対象患者の限定を解除したりしたものであり、新たな希少疾病用医薬品としての開発というよりも、従前効能の対象患者拡大に相当し、開発リスクが低かったと考えられるもの<br>
+③　薬価算定時の比較薬が、今回対象となる希少疾病に関して市場性加算（Ⅰ）の適用を<br>
+受けている場合など、申請品目の薬価収載時に、既に当該希少疾病に関する評価を考慮した算定が行われていると考えられるもの</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第10節_小児">
+  <div class="section-header">
+    <h2>第10節 小児</h2>
+    <div class="section-desc">第10節 小児用医薬品</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問131 → R8 問135</span>
+    <span class="card-note">同（「薬機法」→「薬事法」）</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問131　小児に係る効能効果等を追加した場合、収載後の加算の該当性はどのように評価されるのか。<br>
+（答）原則として、小児に係る効能効果又は用法用量の一部変更承認を取得し、薬機法に基づく再審査の対象とされているものを加算の対象とする。<br>
+　ただし、本加算は、当初成人用製剤として開発された品目について、企業における小児適応への拡大のインセンティブとなるよう導入されたという趣旨にかんがみ、以下の品目は、加算の対象外としている。<br>
+①　自ら臨床試験を実施せずに、厚生労働省の「医療上の必要性の高い未承認薬・適応外薬検討会議」等での検討結果や既存の文献等に基づき、公知申請として承認を取得した場合や医師主導治験の結果に基づき承認を取得した場合など、開発に当たっての当該企業の負担が相当程度低いと考えられるもの<br>
+②　もともと小児疾患を対象として開発され、薬価収載時にその点を考慮した算定が行われており、作用機序からみても、小児が主となる疾患に関して効能追加等が行われることが当然想定されるもの</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問135　小児に係る効能効果等を追加した場合、収載後の加算の該当性はどのように評価されるのか。<br>
+（答）原則として、小児に係る効能効果又は用法用量の一部変更承認を取得し、薬機法に基づく再審査の対象とされているものを加算の対象とする。<br>
+ただし、本加算は、当初成人用製剤として開発された品目について、企業における小児適応への対応への拡大のインセンティブとなるよう導入されたという趣旨にかんがみ、以下の品目は、加算の対象外としている。<br>
+　自ら臨床試験を実施せずに、厚生労働省の「医療上の必要性の高い未承認薬・適応外薬検討会議」等での検討結果や既存の文献等に基づき、公知申請として承認を取得した場合や医師主導治験の結果に基づき承認を取得した場合など、開発に当たっての当該企業の負担が相当程度低いと考えられるもの<br>
+　もともと小児疾患を対象として開発され、薬価収載時にその点を考慮した算定が行われており、作用機序からみても、小児が主となる疾患に関して効能追加等が行われることが当然想定されるもの</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第10節_臨床的有用性">
+  <div class="section-header">
+    <h2>第10節 臨床的有用性</h2>
+    <div class="section-desc">第10節 臨床的有用性</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問132 → R8 問136</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問132　市販後に真の臨床的有用性を検証したデータが公表された品目の場合、収載後の加算の該当性はどのような資料により判断されるのか。<br>
+（答）原則として、国際的に信頼できる学術雑誌で公表されたデータにより、真の臨床的有用性（true endpointでみた場合の臨床的有用性）が直接的に検証されていると判断されるものを加算の対象とする。<br>
+真の臨床的有用性の判断は、以下のデータに基づき行う。<br>
+①　承認時に評価されたエンドポイントと異なるエンドポイントをみたデータであること。<br>
+②　承認時（効能追加等に係る一部変更承認を含む。）に提出された臨床試験成績と異なる臨床試験に係るデータであること。<br>
+③　承認の効能・効果、用法・用量の範囲内で行われた臨床試験のデータであること。<br>
+ただし、本加算は、surrogate endpointで承認された品目について、企業が、市販後に調査成績を集積し、真の臨床的有用性を直接的に検証することを評価する目的で導入されたという趣旨にかんがみ、以下の場合は加算の対象外とする。<br>
+①　当該データが、自ら関与した臨床試験の結果ではなく、大学等の研究機関や学会が独自に実施した臨床試験成績に基づくものである場合など、当該企業の負担が相当程度低いと考えられるもの<br>
+②　申請品目の承認時にはsurrogate endpointによる承認が主流であったが、学会等における臨床評価の考え方の変更等により、最近承認された類似薬では、当該申請品目が検証したtrue endpointでの成績が求められるのが通例となっている効能・効果に属するもの<br>
+③　過去に市場拡大再算定の対象となり、その際に真の臨床的有用性が検証されているとして補正加算が適用された品目（市場拡大再算定対象品と同率の補正加算が適用された類似品を含む。）にあっては、その際に評価の対象とした効能・効果に関するデータしか提出されていないもの（補正加算を適用した効能・効果と別の効能・効果に関するデータが提出されている場合は評価の対象）<br>
+④　承認条件などに基づき企業が実施した臨床試験<br>
+<br>
+第10節　既収載品の外国平均価格調整</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問136　市販後に真の臨床的有用性を検証したデータが公表された品目の場合、収載後の加算の該当性はどのような資料により判断されるのか。<br>
+（答）原則として、国際的に信頼できる学術雑誌で公表されたデータにより、真の臨床的有用性（true endpointでみた場合の臨床的有用性）が直接的に検証されていると判断されるものを加算の対象とする。<br>
+真の臨床的有用性の判断は、以下のデータに基づき行う。<br>
+①　承認時に評価されたエンドポイントと異なるエンドポイントをみたデータであること。<br>
+②　承認時（効能追加等に係る一部変更承認を含む。）に提出された臨床試験成績と異なる臨床試験に係るデータであること。<br>
+③　承認の効能・効果、用法・用量の範囲内で行われた臨床試験のデータであること。<br>
+ただし、本加算は、surrogate endpointで承認された品目について、企業が、市販後に調査成績を集積し、真の臨床的有用性を直接的に検証することを評価する目的で導入されたという趣旨にかんがみ、以下の場合は加算の対象外とする。<br>
+①　当該データが、自ら関与した臨床試験の結果ではなく、大学等の研究機関や学会が独自に実施した臨床試験成績に基づくものである場合など、当該企業の負担が相当程度低いと考えられるもの<br>
+②　申請品目の承認時には surrogate endpoint による承認が主流であったが、学会等における臨床評価の考え方の変更等により、最近承認された類似薬では、当該申請品目が検証した true endpoint での成績が求められるのが通例となっている効能・効果に属するもの<br>
+　過去に市場拡大再算定の対象となり、その際に真の臨床的有用性が検証されているとして補正加算が適用された品目（市場拡大再算定対象品と同率の補正加算が適用された類似品を含む。）にあっては、その際に評価の対象とした効能・効果に関するデータしか提出されていないもの（補正加算を適用した効能・効果と別の効能・効果に関するデータが提出されている場合は評価の対象）<br>
+④　承認条件などに基づき企業が実施した臨床試験<br>
+第11節　既収載品の外国平均価格調整<br>
+第11節　既収載品の外国平均価格調整</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="第11節_外国平均価格調整">
+  <div class="section-header">
+    <h2>第11節 外国平均価格調整</h2>
+    <div class="section-desc">第11節 外国平均価格調整</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問133 → R8 問137</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問133　当該ルールの具体的な適用方法について示されたい。<br>
+・外国価格の有無の判断はどの時点で行うのか。<br>
+・調整に用いる外国価格はどの時点となるのか。<br>
+・調整に用いる為替レートはどの期間となるのか。<br>
+（答）薬価改定の前年の11月1日時点の外国価格の有無により判断し、同時点の価格により適用する。なお、為替レートは11月1日時点における最新一年間の平均レートを用いることとする。<br>
+<br>
+その他<br>
+＜薬価算定用資料＞</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">問137　当該ルールの具体的な適用方法について示されたい。<br>
+・外国価格の有無の判断はどの時点で行うのか。<br>
+・調整に用いる外国価格はどの時点となるのか。<br>
+・調整に用いる為替レートはどの期間となるのか。<br>
+（答）薬価改定の前年の11月１日時点の外国価格の有無により判断し、同時点の価格により適用する。なお、為替レートは11月１日時点における最新一年間の平均レートを用いることとする。<br>
+その他<br>
+＜薬価算定用資料＞＜薬価算定用資料＞</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="その他">
+  <div class="section-header">
+    <h2>その他</h2>
+    <div class="section-desc">その他（算定事務・提出書類等）</div>
+  </div>
+  <div class="section-cards">
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問134 → R8 問138</span>
+    <span class="card-note">R6「中医協に報告される事項」→R8「中医協報告となる算定事項」</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問134　算定値が当初の企業希望価格と異なった場合、市場規模予測を変更する必要があるか。また、その場合、いつ変更するのか。<br>
+（答）企業が市場規模予測値を変更する必要がある場合には、変更しうる。その場合、予測値は中医協に報告される事項であるので、企業は、算定組織での算定額を了承した時点から速やかに変更後の値を提出しなければならない。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問138　算定値が当初の企業希望価格と異なった場合、市場規模予測を変更する必要があるか。また、その場合、いつ変更するのか。<br>
+（答）企業が市場規模予測値を変更する必要がある場合には、変更しうる。その場合、予測値は中医協に報告される事項であるので、企業は、算定組織での算定額を了承した時点から速やかに変更後の値を提出しなければならない。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問135 → R8 問139</span>
+    <span class="card-note">事務局審査品目の説明文が若干変更</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問135　報告品目ではないが、事務局審査品目である新薬の再審査期間中の規格追加・剤形追加は報告品目と同時期に収載されるのか。<br>
+（答）そのように取り扱う。なお、再審査期間中とは承認時点において判断する。<br>
+（解説）「医療用医薬品の薬価基準収載等に係る取扱いについて」の記2において報告品目（医薬品部会の報告品目及び審議品目であって新医薬品以外のもの）については、報告品目として取り扱う旨が明記されており、収載は年2回（5月と11月を標準とする）であるところ。ただし、承認審査において以前は相談品目として扱われていたが、最近、報告品目ではなく事務局審査品目として扱われるようになった「再審査期間中の新薬の規格・剤形追加」については、従前の通り扱われるものと考えており、報告品目と同様に年2回収載とするところ。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問139　報告品目ではないが、事務局審査品目である新薬の再審査期間中の規格追加・剤形追加は報告品目と同時期に収載されるのか。<br>
+（答）そのように取り扱う。なお、再審査期間中とは承認時点において判断する。<br>
+（解説）「医療用医薬品の薬価基準収載等に係る取扱いについて」の記2において報告品目（医薬品部会の報告品目及び審議品目であって新医薬品以外のもの）については、報告品目として取り扱う旨が明記されており、収載は年２回（５月と11月を標準とする）であるところ。ただし、承認審査において以前は相談品目として取扱われていたが、最近、報告品目ではなく事務局審査品目として扱われるようになった「再審査期間中の新薬の規格追加・剤形追加」については、従前の通り扱われるものと考えており、報告品目と同様に年２回収載とするところ。</div>
+  </div>
+  </div>
+</div>
+<div class="card card-renumbered">
+  <div class="card-header">
+    <span class="tag tag-renumbered">番号変更</span>
+    <span class="card-nums">R6 問136〜137 → R8 問140〜141</span>
+    <span class="card-note">ほぼ同じ</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">（136〜137 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="renumber-note">（内容はほぼ同じ。問番号のみ変更）</div>
+    <div class="qa-text">（140〜141 ※範囲指定のため個別本文は省略）</div>
+  </div>
+  </div>
+</div>
+<div class="card card-changed">
+  <div class="card-header">
+    <span class="tag tag-changed">変更</span>
+    <span class="card-nums">R6 問138 → R8 問142</span>
+    <span class="card-note">R6「新薬創出等加算の該当性に関する資料」→R8「革新的新薬薬価維持制度の該当性に関する資料」「試験計画の主な委託資料（試験計画の委受託に関する説明資料）」</span>
+  </div>
+  <div class="card-body">
+  <div class="col col-r6">
+    <span class="col-label r6-label">R6</span>
+    <div class="qa-text">問138　薬理作用類似薬成分数０の場合に提出する「新薬創出等加算の該当性に関する資料」における添付資料「試験計画の妥当性の説明資料」とは具体的にどのようなものを想定しているのか。<br>
+（答）例えば、治験届に添付する「当該治験の依頼を科学的に正当と判断した理由を記した文書」を提出することでよい。</div>
+  </div>
+  <div class="col col-r8">
+    <span class="col-label r8-label">R8</span>
+    <div class="qa-text">問142　薬理作用類似薬成分数0の場合に提出する「革新的新薬薬価維持制度の該当性に関する資料」における添付資料「試験計画の妥当性の説明資料」とは具体的にどのようなものを想定しているのか。<br>
+（答）例えば、治験届に添付する「当該治験の依頼を科学的に正当と判断した理由を記した文書」を提出することでよい。<br>
+※本資料は、薬価算定の基準を解説する目的で、厚生労働省への照会結果を踏まえ、保険薬価研究委員会が作成しています。</div>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<div class="source-note">
+  R8出典：令和8年度 薬価算定の基準 _修正済.docx（令和8年3月26日）<br>
+  R6出典：薬価算定の基準 Q&amp;A（令和6年3月29日）<br>
+  変更一覧：comparison_r6_r8.csv より生成（全150件）
+</div>
+</div>
+
+</body>
+</html>
