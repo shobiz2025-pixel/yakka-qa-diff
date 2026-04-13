@@ -188,6 +188,23 @@
   .filter-btn[data-filter="削除"].active { background: #dc2626; border-color: #dc2626; color: white !important; }
   .filter-btn[data-filter="番号変更"].active { background: #7c3aed; border-color: #7c3aed; color: white !important; }
 
+  /* ===== 番号変更非表示トグル ===== */
+  .hide-toggle-btn {
+    padding: 6px 16px; border-radius: 20px; border: 2px dashed #9ca3af;
+    background: white; cursor: pointer; font-size: 12px; font-weight: 600;
+    color: #6b7280; transition: all 0.18s; font-family: inherit;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .hide-toggle-btn::before { content: '👁'; font-size: 13px; }
+  .hide-toggle-btn:hover { border-color: #6b7280; color: #374151; }
+  .hide-toggle-btn.active {
+    background: #374151; border-color: #374151; border-style: solid;
+    color: white;
+  }
+  .hide-toggle-btn.active::before { content: '🙈'; }
+  /* body にクラスが付いたら番号変更カードを全非表示 */
+  body.hide-renumbered .card-renumbered { display: none !important; }
+
   /* ===== 骨子グループ ===== */
   .koushi-group { margin-bottom: 48px; }
   .koushi-toggle {
@@ -259,6 +276,8 @@
   <button class="filter-btn" data-filter="追加" style="border-color:#059669;color:#059669;">追加</button>
   <button class="filter-btn" data-filter="削除" style="border-color:#dc2626;color:#dc2626;">削除</button>
   <button class="filter-btn" data-filter="番号変更" style="border-color:#7c3aed;color:#7c3aed;">番号変更</button>
+  <span style="width:1px;background:#e5e7eb;margin:4px 4px;flex-shrink:0;"></span>
+  <button class="hide-toggle-btn" id="hideRenumberedBtn">番号変更（ほぼ同じ）を非表示</button>
 </div>
 
 <div class="sticky-nav">
@@ -4286,11 +4305,13 @@ B10（社内1位）<br>
       }
     });
 
-    // セクション: 全カード非表示なら隠す
+    // セクション: 全カード非表示なら隠す（filtered-out または hide-renumbered 両方考慮）
+    var hidingRenumbered = document.body.classList.contains('hide-renumbered');
     document.querySelectorAll('section').forEach(function(sec) {
       var cards = sec.querySelectorAll('.card');
       var allHidden = cards.length > 0 && Array.from(cards).every(function(c) {
-        return c.classList.contains('filtered-out');
+        return c.classList.contains('filtered-out') ||
+               (hidingRenumbered && c.classList.contains('card-renumbered'));
       });
       sec.classList.toggle('section-all-hidden', allHidden);
     });
@@ -4321,6 +4342,14 @@ B10（社内1位）<br>
       body.classList.toggle('hidden', closing);
       btn.classList.toggle('collapsed', closing);
     });
+  });
+
+  // ── 番号変更（ほぼ同じ）非表示トグル ──
+  document.getElementById('hideRenumberedBtn').addEventListener('click', function() {
+    var active = document.body.classList.toggle('hide-renumbered');
+    this.classList.toggle('active', active);
+    // セクション・グループの空状態を再計算
+    applyFilter();
   });
 
   // ── タブ切り替え ──
